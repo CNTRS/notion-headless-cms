@@ -3,6 +3,11 @@
     "private": true,
     "version": "0.1.0",
     "type": "module",
+    "files": [
+        "dist"
+    ],
+    "main": "./dist/notion-cms.js",
+    "module": "./dist/notion-cms.js",
     "scripts": {
         "build": "tsc && vite build",
         "test": "vitest"
