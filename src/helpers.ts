@@ -1,6 +1,11 @@
 import { getPlaiceholder } from "plaiceholder";
 import { v1 as uuid } from "uuid";
 
+import {
+    BlockObjectResponse,
+    PartialBlockObjectResponse,
+} from "@notionhq/client/build/src/api-endpoints";
+
 export async function transformBlockByType(block: any) {
     if (block.type === "image") {
         const content = block[block.type];
@@ -21,7 +26,9 @@ export async function transformBlockByType(block: any) {
     return block;
 }
 
-export async function transformPageContent(pageContent: any[]) {
+export async function transformPageContent(
+    pageContent: Array<BlockObjectResponse | PartialBlockObjectResponse>,
+) {
     return Promise.all(pageContent.map(transformBlockByType)).then(blocks => {
         return blocks.reduce((acc, curr) => {
             if (curr.type === "bulleted_list_item") {
