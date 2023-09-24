@@ -6,6 +6,7 @@ import {
     HEADING_1_BLOCK,
     IMAGE_EXTERNAL_URL_BLOCK,
     IMAGE_EXTERNAL_URL_BLOCK_RESULT,
+    CALLOUT_BLOCK,
 } from "./helpers.mocks";
 
 test("Transform Paragraph block:", async () => {
@@ -20,7 +21,7 @@ test("Transform Heading 1 block:", async () => {
     );
 });
 
-test("Transform Image with external url", async () => {
+test("Transform Image block with external url", async () => {
     const result = await transformBlockByType(IMAGE_EXTERNAL_URL_BLOCK);
 
     expect(result.image.format).toBe(
@@ -34,6 +35,8 @@ test("Transform Image with external url", async () => {
     );
 });
 
-test("1+1 equals 2", () => {
-    expect(1 + 1).toBe(2);
+test("Transform Callout block", async () => {
+    expect(JSON.stringify(await transformBlockByType(CALLOUT_BLOCK))).toBe(
+        JSON.stringify(CALLOUT_BLOCK),
+    );
 });
