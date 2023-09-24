@@ -24,6 +24,7 @@
         "@types/uuid": "^9.0.4",
         "@typescript-eslint/eslint-plugin": "^6.7.2",
         "@typescript-eslint/parser": "^6.7.2",
+        "dotenv": "^16.3.1",
         "eslint": "^8.49.0",
         "eslint-config-prettier": "^9.0.0",
         "eslint-plugin-prettier": "^5.0.0",
@@ -34,7 +35,7 @@
     },
     "dependencies": {
         "@notionhq/client": "^2.2.13",
-        "plaiceholder": "^3.0.0",
+        "image-size": "^1.0.2",
         "uuid": "^9.0.1"
     }
 }
