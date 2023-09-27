@@ -12,6 +12,7 @@
     "main": "./dist/notion-cms.js",
     "module": "./dist/notion-cms.js",
     "scripts": {
+        "preinstall": "npx only-allow pnpm",
         "build": "tsc && vite build",
         "test": "vitest"
     },
