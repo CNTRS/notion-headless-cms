@@ -1,5 +1,5 @@
-import { v1 as uuid } from "uuid";
 import imageSize from "image-size";
+import { randomUUID } from "crypto";
 
 import {
     BlockObjectResponse,
@@ -67,7 +67,7 @@ export async function transformPageContent(
                 } else {
                     acc.push({
                         type: "bulleted_list",
-                        id: uuid(),
+                        id: randomUUID(),
                         bulleted_list: { children: [curr] },
                     });
                 }

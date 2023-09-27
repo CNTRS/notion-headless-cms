@@ -6,6 +6,9 @@
     "files": [
         "dist"
     ],
+    "engines": {
+        "node": ">=18.16.0"
+    },
     "main": "./dist/notion-cms.js",
     "module": "./dist/notion-cms.js",
     "scripts": {
@@ -21,7 +24,6 @@
     },
     "devDependencies": {
         "@types/node": "^20.6.3",
-        "@types/uuid": "^9.0.4",
         "@typescript-eslint/eslint-plugin": "^6.7.2",
         "@typescript-eslint/parser": "^6.7.2",
         "dotenv": "^16.3.1",
@@ -35,7 +37,6 @@
     },
     "dependencies": {
         "@notionhq/client": "^2.2.13",
-        "image-size": "^1.0.2",
-        "uuid": "^9.0.1"
+        "image-size": "^1.0.2"
     }
 }
