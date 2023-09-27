@@ -43,7 +43,9 @@ type TNotionEntryId = string;
 interface INotionCMS {
     listPages(): Promise<TNotionPage[]>;
     getPage(id: TNotionEntryId): Promise<TNotionPage>;
-    getPageContent(id: TNotionEntryId): Promise<any>;
+    getPageContent(
+        id: TNotionEntryId,
+    ): Promise<Array<PartialBlockObjectResponse | BlockObjectResponse>>;
     getAllPagesContent(): Promise<TNotionPage[]>;
 }
 
@@ -64,7 +66,7 @@ export default class NotionCMS implements INotionCMS {
         return await this.client.pages.retrieve({ page_id: id });
     }
     async getPageContent(
-        id: string,
+        id: TNotionEntryId,
     ): Promise<Array<PartialBlockObjectResponse | BlockObjectResponse>> {
         let has_more = true,
             start_cursor: undefined | string;
