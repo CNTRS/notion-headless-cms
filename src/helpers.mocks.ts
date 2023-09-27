@@ -236,3 +236,323 @@ export const CALLOUT_BLOCK = {
         color: "gray_background",
     },
 };
+
+export const PAGE_ID = "ad9bcf91-3a83-4504-91ba-e2503d90caba";
+
+export const PAGE_METADATA = {
+    object: "page",
+    id: "ad9bcf91-3a83-4504-91ba-e2503d90caba",
+    created_time: "2023-06-26T14:05:00.000Z",
+    last_edited_time: "2023-09-23T15:43:00.000Z",
+    created_by: {
+        object: "user",
+        id: "cb4decf1-fcbd-45bf-99aa-81d265a1aec7",
+    },
+    last_edited_by: {
+        object: "user",
+        id: "cb4decf1-fcbd-45bf-99aa-81d265a1aec7",
+    },
+    cover: null,
+    icon: null,
+    parent: {
+        type: "database_id",
+        database_id: "7431d3ba-b390-4418-ae50-e68277a29263",
+    },
+    archived: false,
+    properties: {
+        status: {
+            id: "EhOD",
+            type: "status",
+            status: {
+                id: "=?Co",
+                name: "draft",
+                color: "gray",
+            },
+        },
+        author: {
+            id: "NOtQ",
+            type: "created_by",
+            created_by: {
+                object: "user",
+                id: "cb4decf1-fcbd-45bf-99aa-81d265a1aec7",
+            },
+        },
+        created: {
+            id: "Txnn",
+            type: "created_time",
+            created_time: "2023-06-26T14:05:00.000Z",
+        },
+        slug: {
+            id: "eaX%5C",
+            type: "rich_text",
+            rich_text: [
+                {
+                    type: "text",
+                    text: {
+                        content: "one-more-time",
+                        link: null,
+                    },
+                    annotations: {
+                        bold: false,
+                        italic: false,
+                        strikethrough: false,
+                        underline: false,
+                        code: false,
+                        color: "default",
+                    },
+                    plain_text: "one-more-time",
+                    href: null,
+                },
+            ],
+        },
+        Tags: {
+            id: "j~Ng",
+            type: "multi_select",
+            multi_select: [
+                {
+                    id: "a58d9185-3c00-457b-b30d-06463a55d4f9",
+                    name: "off topic",
+                    color: "orange",
+                },
+            ],
+        },
+        updated: {
+            id: "kfC%60",
+            type: "last_edited_time",
+            last_edited_time: "2023-09-23T15:43:00.000Z",
+        },
+        title: {
+            id: "title",
+            type: "title",
+            title: [
+                {
+                    type: "text",
+                    text: {
+                        content: "One more time",
+                        link: null,
+                    },
+                    annotations: {
+                        bold: false,
+                        italic: false,
+                        strikethrough: false,
+                        underline: false,
+                        code: false,
+                        color: "default",
+                    },
+                    plain_text: "One more time",
+                    href: null,
+                },
+            ],
+        },
+    },
+    url: "https://www.notion.so/One-more-time-ad9bcf913a83450491bae2503d90caba",
+    public_url: null,
+};
+
+export const PAGE_METADATA_AND_CONTENT = {
+    object: "page",
+    id: "ad9bcf91-3a83-4504-91ba-e2503d90caba",
+    created_time: "2023-06-26T14:05:00.000Z",
+    last_edited_time: "2023-09-23T15:43:00.000Z",
+    created_by: {
+        object: "user",
+        id: "cb4decf1-fcbd-45bf-99aa-81d265a1aec7",
+    },
+    last_edited_by: {
+        object: "user",
+        id: "cb4decf1-fcbd-45bf-99aa-81d265a1aec7",
+    },
+    cover: null,
+    icon: null,
+    parent: {
+        type: "database_id",
+        database_id: "7431d3ba-b390-4418-ae50-e68277a29263",
+    },
+    archived: false,
+    properties: {
+        status: {
+            id: "EhOD",
+            type: "status",
+            status: {
+                id: "=?Co",
+                name: "draft",
+                color: "gray",
+            },
+        },
+        author: {
+            id: "NOtQ",
+            type: "created_by",
+            created_by: {
+                object: "user",
+                id: "cb4decf1-fcbd-45bf-99aa-81d265a1aec7",
+            },
+        },
+        created: {
+            id: "Txnn",
+            type: "created_time",
+            created_time: "2023-06-26T14:05:00.000Z",
+        },
+        slug: {
+            id: "eaX%5C",
+            type: "rich_text",
+            rich_text: [
+                {
+                    type: "text",
+                    text: {
+                        content: "one-more-time",
+                        link: null,
+                    },
+                    annotations: {
+                        bold: false,
+                        italic: false,
+                        strikethrough: false,
+                        underline: false,
+                        code: false,
+                        color: "default",
+                    },
+                    plain_text: "one-more-time",
+                    href: null,
+                },
+            ],
+        },
+        Tags: {
+            id: "j~Ng",
+            type: "multi_select",
+            multi_select: [
+                {
+                    id: "a58d9185-3c00-457b-b30d-06463a55d4f9",
+                    name: "off topic",
+                    color: "orange",
+                },
+            ],
+        },
+        updated: {
+            id: "kfC%60",
+            type: "last_edited_time",
+            last_edited_time: "2023-09-23T15:43:00.000Z",
+        },
+        title: {
+            id: "title",
+            type: "title",
+            title: [
+                {
+                    type: "text",
+                    text: {
+                        content: "One more time",
+                        link: null,
+                    },
+                    annotations: {
+                        bold: false,
+                        italic: false,
+                        strikethrough: false,
+                        underline: false,
+                        code: false,
+                        color: "default",
+                    },
+                    plain_text: "One more time",
+                    href: null,
+                },
+            ],
+        },
+    },
+    url: "https://www.notion.so/One-more-time-ad9bcf913a83450491bae2503d90caba",
+    public_url: null,
+    content: [
+        {
+            object: "block",
+            id: "709d40f5-bb61-4907-9d4b-909eaa7997ab",
+            parent: {
+                type: "page_id",
+                page_id: "ad9bcf91-3a83-4504-91ba-e2503d90caba",
+            },
+            created_time: "2023-09-23T15:42:00.000Z",
+            last_edited_time: "2023-09-23T15:42:00.000Z",
+            created_by: {
+                object: "user",
+                id: "cb4decf1-fcbd-45bf-99aa-81d265a1aec7",
+            },
+            last_edited_by: {
+                object: "user",
+                id: "cb4decf1-fcbd-45bf-99aa-81d265a1aec7",
+            },
+            has_children: false,
+            archived: false,
+            type: "paragraph",
+            paragraph: {
+                rich_text: [
+                    {
+                        type: "text",
+                        text: {
+                            content: "Ok, let’s jam",
+                            link: null,
+                        },
+                        annotations: {
+                            bold: false,
+                            italic: false,
+                            strikethrough: false,
+                            underline: false,
+                            code: false,
+                            color: "default",
+                        },
+                        plain_text: "Ok, let’s jam",
+                        href: null,
+                    },
+                ],
+                color: "default",
+            },
+        },
+        {
+            object: "block",
+            id: "71cc3015-27fa-40bd-a7ef-d870ca6761b4",
+            parent: {
+                type: "page_id",
+                page_id: "ad9bcf91-3a83-4504-91ba-e2503d90caba",
+            },
+            created_time: "2023-09-23T15:43:00.000Z",
+            last_edited_time: "2023-09-23T15:43:00.000Z",
+            created_by: {
+                object: "user",
+                id: "cb4decf1-fcbd-45bf-99aa-81d265a1aec7",
+            },
+            last_edited_by: {
+                object: "user",
+                id: "cb4decf1-fcbd-45bf-99aa-81d265a1aec7",
+            },
+            has_children: false,
+            archived: false,
+            type: "video",
+            video: {
+                caption: [],
+                type: "external",
+                external: {
+                    url: "",
+                },
+            },
+        },
+        {
+            object: "block",
+            id: "3df2dc6e-25e3-4ca9-9d16-fb0f933a4142",
+            parent: {
+                type: "page_id",
+                page_id: "ad9bcf91-3a83-4504-91ba-e2503d90caba",
+            },
+            created_time: "2023-09-23T15:43:00.000Z",
+            last_edited_time: "2023-09-23T15:43:00.000Z",
+            created_by: {
+                object: "user",
+                id: "cb4decf1-fcbd-45bf-99aa-81d265a1aec7",
+            },
+            last_edited_by: {
+                object: "user",
+                id: "cb4decf1-fcbd-45bf-99aa-81d265a1aec7",
+            },
+            has_children: false,
+            archived: false,
+            type: "paragraph",
+            paragraph: {
+                rich_text: [],
+                color: "default",
+            },
+        },
+    ],
+};
