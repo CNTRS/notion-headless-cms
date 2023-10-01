@@ -7,8 +7,8 @@ export default defineConfig({
         lib: {
             entry: resolve(__dirname, "src/main.ts"),
             formats: ["es"],
-            name: "NotionCMS",
-            fileName: "notion-cms",
+            name: "NotionHeadlessCMS",
+            fileName: "notion-headless-cms",
         },
     },
     resolve: { alias: { src: resolve("src/") } },
