@@ -27,9 +27,8 @@ In addition to API calls, process some Notion content blocks for an easily rende
 ## 📦 Features
 
 -   Simple methods for list pages metadata, retrieve page metadata with content, or recover all pages with its content
--   Import and save files from GitHub, Dropbox, Google Drive and One Drive
--   Drag and drop markdown and HTML files into Dillinger
--   Export documents as Markdown, HTML and PDF
+-   Works with both public and private Notion content
+-   Example script available which shows how to export Notion content to json file
 
 ---
 
