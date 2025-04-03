@@ -34,7 +34,7 @@
         "prettier": "^3.3.3",
         "typescript": "^5.6.2",
         "vite": "5.2.14",
-        "vitest": "1.2.1"
+        "vitest": "1.6.1"
     },
     "dependencies": {
         "@notionhq/client": "^2.2.15",
