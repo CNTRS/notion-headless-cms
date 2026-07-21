@@ -1,5 +1,5 @@
 import { Client } from "@notionhq/client";
-import {
+import type {
     PageObjectResponse,
     PartialPageObjectResponse,
     DatabaseObjectResponse,

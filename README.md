@@ -36,8 +36,7 @@ In addition to API calls, process some Notion content blocks for an easily rende
 
 ```sh
 └── notion-headless-cms/
-    ├── .eslintignore
-    ├── .eslintrc.cjs
+    ├── biome.json
     ├── .gitignore
     ├── .vscode/
     │   ├── extensions.json
@@ -64,7 +63,7 @@ In addition to API calls, process some Notion content blocks for an easily rende
 ## ⚙️ Tech Stack
 
 -   Node.js v18
--   ESLint + Prettier
+-   Biome (lint + format)
 -   Typescript v5
 -   Vite + Vitest, for compile and testing
 -   Image Size, for process images block metadata and obtain type and measures

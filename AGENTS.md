@@ -10,8 +10,8 @@
 | Install | `pnpm install` |
 | Build (typecheck + bundle) | `pnpm build` |
 | Test all | `pnpm test` |
-| Lint | `npx eslint src/` |
-| Format | `npx prettier --check src/` (or `--write` to fix) |
+| Lint | `pnpm lint` (or `pnpm check` for read-only CI) |
+| Format | `pnpm format` |
 
 `pnpm` is enforced; `npm`/`yarn` will fail at preinstall.
 
@@ -36,13 +36,14 @@
 - Notion API types imported from `@notionhq/client/build/src/api-endpoints` (non-standard path).
 - Library build outputs ESM only (`formats: ["es"]` in vite.config.ts).
 - Vite resolve alias: `src` → `<root>/src/` (import `"src/..."` works).
-- Prettier config is inlined in `package.json` (tabWidth: 4, no parens on arrow functions).
-- ESLint disables `@typescript-eslint/no-explicit-any`.
+- Biome config at `biome.json` (tabWidth: 4, arrow parentheses `asNeeded`).
+- Biome disables `suspicious/noExplicitAny` for Notion API type flexibility.
 - `dotenv` is a devDependency; used in tests via `import "dotenv/config"` (auto-loads `.env`).
 - `image-size` is a runtime dependency (not dev), used in `helpers.ts` to decode image dimensions.
 
 ## styles that differ from defaults
 
-- 4-space indent (Prettier `tabWidth: 4`).
-- Arrow functions omit parens when single-param: `x => x` not `(x) => x`.
+- 4-space indent (Biome `indentWidth: 4`).
+- Arrow functions omit parens when single-param: `x => x` not `(x) => x` (Biome `arrowParentheses: "asNeeded"`).
 - Disallow unused locals and parameters (tsconfig `noUnusedLocals`, `noUnusedParameters`).
+- Biome `noUnusedVariables` off (redundant with `tsc`).
