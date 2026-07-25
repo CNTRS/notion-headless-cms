@@ -5,7 +5,7 @@
 ## 2. Value Objects
 
 - [x] 2.1 Implement `PageId` with UUID validation, `equals()`, `toString()`, and tests
-- [ ] 2.2 Implement `Slug` with regex validation, `equals()`, and tests
+- [x] 2.2 Implement `Slug` with regex validation, `equals()`, and tests
 - [ ] 2.3 Implement `PageStatus` with allowed values (`draft`, `published`, `archived`) and tests
 - [ ] 2.4 Implement `Tag` with non-empty validation and tests
 - [ ] 2.5 Implement `RichText` with `content`, formatting annotations, and tests
