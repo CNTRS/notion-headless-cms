@@ -19,7 +19,6 @@ echo "[ralph-once] change=$CHANGE model=$MODEL"
 
 # TODO: Replace agent with spec-apply once adapted
 opencode run \
-#  --agent spec-apply \
   --agent build \
   --model "$MODEL" \
   "$(cat LOOP.md)"

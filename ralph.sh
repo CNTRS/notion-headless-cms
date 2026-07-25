@@ -10,7 +10,7 @@ set -euo pipefail
 
 CHANGE="${1:?'Usage: bash ralph.sh <change-name> [model] [max-iters]'}"
 MODEL="${2:-opencode-zen/deepseek-v4-flash-free}"
-MAX_ITERS="${3:-20}"
+MAX_ITERS="${3:-50}"
 COMPLETION="<promise>DONE</promise>"
 
 export CHANGE
@@ -22,7 +22,6 @@ for iter in $(seq 1 "$MAX_ITERS"); do
 
 # TODO: Replace agent with spec-apply once adapted
   OUTPUT=$(opencode run \
-#    --agent spec-apply \
     --agent build \
     --model "$MODEL" \
     "$(cat LOOP.md)" 2>&1)
