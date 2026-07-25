@@ -3,13 +3,13 @@
 #
 # Usage: bash ralph.sh <change-name> [model] [max-iters]
 #   change-name  required, e.g. add-users-filter-pagination
-#   model        default: opencode-zen/deepseek-v4-flash-free
-#   max-iters    default: 20
+#   model        default: opencode/deepseek-v4-flash-free
+#   max-iters    default: 50
 
 set -euo pipefail
 
 CHANGE="${1:?'Usage: bash ralph.sh <change-name> [model] [max-iters]'}"
-MODEL="${2:-opencode-zen/deepseek-v4-flash-free}"
+MODEL="${2:-opencode/deepseek-v4-flash-free}"
 MAX_ITERS="${3:-50}"
 COMPLETION="<promise>DONE</promise>"
 

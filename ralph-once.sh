@@ -11,7 +11,7 @@
 set -euo pipefail
 
 CHANGE="${1:?'Usage: bash ralph-once.sh <change-name> [model]'}"
-MODEL="${2:-opencode-zen/deepseek-v4-flash-free}"
+MODEL="${2:-opencode/deepseek-v4-flash-free}"
 
 export CHANGE
 
