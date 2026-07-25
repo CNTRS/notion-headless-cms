@@ -1,15 +1,16 @@
 #!/bin/bash
 # ralph.sh — Ralph loop on top of an OpenSpec change
 #
-# Usage: bash ralph.sh <change-name> [max-iters] [model]
+# Usage: bash ralph.sh <change-name> [model] [max-iters]
 #   change-name  required, e.g. add-users-filter-pagination
+#   model        default: opencode-zen/deepseek-v4-flash-free
 #   max-iters    default: 20
-#   model        default: opencode-go/qwen3.7-max
 
 set -euo pipefail
 
-CHANGE="${1:?'Usage: bash ralph.sh <change-name> [max-iters] [model]'}"
-MAX_ITERS="${2:-20}"
+CHANGE="${1:?'Usage: bash ralph.sh <change-name> [model] [max-iters]'}"
+MODEL="${2:-opencode-zen/deepseek-v4-flash-free}"
+MAX_ITERS="${3:-20}"
 COMPLETION="<promise>DONE</promise>"
 
 export CHANGE
@@ -19,12 +20,15 @@ echo "[ralph] change=$CHANGE max-iters=$MAX_ITERS"
 for iter in $(seq 1 "$MAX_ITERS"); do
   echo "[ralph] iter $iter/$MAX_ITERS"
 
+# TODO: Replace agent with spec-apply once adapted
   OUTPUT=$(opencode run \
-    --agent spec-apply \
+#    --agent spec-apply \
+    --agent build \
+    --model "$MODEL" \
     "$(cat LOOP.md)" 2>&1)
   echo "$OUTPUT"
 
-  if echo "$OUTPUT" | grep -qE "^[[:space:]]*${COMPLETION}[[:space:]]*$"; then
+  if echo "$OUTPUT" | grep -qF "${COMPLETION}"; then
     echo "[ralph] DONE detected, exit at iter $iter"
     exit 0
   fi

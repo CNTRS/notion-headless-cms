@@ -10,6 +10,7 @@ This file (`LOOP.md`) defines HOW you work.
 
 Study the current state before doing anything:
 
+- Run `echo "$CHANGE"` to discover the change name (env var set by the harness). Mentally substitute this value wherever you see `$CHANGE` in paths below. Always resolve this point first.
 - Read `openspec/changes/$CHANGE/tasks.md`. `- [ ]` is pending, `- [x]` is done.
 - Read `openspec/changes/$CHANGE/proposal.md` for context.
 - Read `openspec/changes/$CHANGE/design.md` for technical decisions.
@@ -43,7 +44,7 @@ For each behavioural slice of the task:
 - `git commit -m "<type>(<scope>): <task summary>"`
 
 Follow conventional commits as defined in
-`.claude/skills/guidelines/git-strategy/`.
+`.claude/skills/git-strategy/`.
 
 ## Phase 4: Completion check
 
