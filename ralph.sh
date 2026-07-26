@@ -27,7 +27,7 @@ for iter in $(seq 1 "$MAX_ITERS"); do
     "$(cat LOOP.md)" 2>&1)
   echo "$OUTPUT"
 
-  if echo "$OUTPUT" | grep -qF "${COMPLETION}"; then
+  if echo "$OUTPUT" | grep -qE "^[[:space:]]*${COMPLETION}[[:space:]]*$"; then
     echo "[ralph] DONE detected, exit at iter $iter"
     exit 0
   fi
