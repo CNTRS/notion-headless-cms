@@ -37,10 +37,10 @@
 
 ## 7. Domain index
 
-- [ ] 7.1 Create `src/domain/index.ts` re-exporting all public types and functions
+- [x] 7.1 Create `src/domain/index.ts` re-exporting all public types and functions
 
 ## 8. Verification
 
-- [ ] 8.1 Run `pnpm test` to confirm all new + existing tests pass
-- [ ] 8.2 Run `pnpm lint` to confirm no lint errors
-- [ ] 8.3 Run `pnpm build` to confirm compilation succeeds
+- [x] 8.1 Run `pnpm test` to confirm all new + existing tests pass
+- [x] 8.2 Run `pnpm lint` to confirm no lint errors
+- [x] 8.3 Run `pnpm build` to confirm compilation succeeds
