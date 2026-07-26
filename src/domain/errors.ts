@@ -17,3 +17,7 @@ export class InvalidTagError extends Error {
 export class InvalidRichTextError extends Error {
     override name = "InvalidRichTextError" as const;
 }
+
+export class InvalidStaticPageError extends Error {
+    override name = "InvalidStaticPageError" as const;
+}
