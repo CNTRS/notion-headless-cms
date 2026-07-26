@@ -27,8 +27,8 @@
 
 ## 5. ImageTransform
 
-- [ ] 5.1 Implement `ImageTransform.process(buffer: Buffer): ImageMeta` — synchronous, pure
-- [ ] 5.2 Write tests with known image buffers verifying base64, dimensions, format
+- [x] 5.1 Implement `ImageTransform.process(buffer: Buffer): ImageMeta` — synchronous, pure
+- [x] 5.2 Write tests with known image buffers verifying base64, dimensions, format
 
 ## 6. PageBlockTransformer
 
