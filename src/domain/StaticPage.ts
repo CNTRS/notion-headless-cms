@@ -47,6 +47,10 @@ export class StaticPage {
         return new StaticPage(props);
     }
 
+    equals(other: StaticPage): boolean {
+        return this.id.equals(other.id);
+    }
+
     withContent(content: PageBlock[]): StaticPage {
         return new StaticPage({
             id: this.id,

@@ -128,4 +128,21 @@ describe("The StaticPage", () => {
 
         expect(page.content).toEqual([]);
     });
+
+    test("equals returns true when two pages share the same PageId", () => {
+        const id = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
+        const a = StaticPage.create({ id, slug, status, title: "Page A" });
+        const b = StaticPage.create({ id, slug, status, title: "Page B" });
+
+        expect(a.equals(b)).toBe(true);
+    });
+
+    test("equals returns false when two pages have different PageIds", () => {
+        const idA = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
+        const idB = PageId.create("7c0c0c0c-0c0c-0c0c-0c0c-0c0c0c0c0c0c");
+        const a = StaticPage.create({ id: idA, slug, status, title: "Page A" });
+        const b = StaticPage.create({ id: idB, slug, status, title: "Page B" });
+
+        expect(a.equals(b)).toBe(false);
+    });
 });
