@@ -13,9 +13,9 @@
 ## 3. Block model
 
 - [x] 3.1 Define `PageBlock` discriminated union type with all supported block member types
-- [ ] 3.2 Define `TextBlock`, `HeadingBlock`, `ImageBlock`, `CalloutBlock`, `BulletedList`, `NumberedList`, `VideoBlock`, `CodeBlock`, `QuoteBlock`, `DividerBlock` types
-- [ ] 3.3 Define `ListItem` type for list item content
-- [ ] 3.4 Add tests verifying exhaustive type narrowing and construction
+- [x] 3.2 Define `TextBlock`, `HeadingBlock`, `ImageBlock`, `CalloutBlock`, `BulletedList`, `NumberedList`, `VideoBlock`, `CodeBlock`, `QuoteBlock`, `DividerBlock` types
+- [x] 3.3 Define `ListItem` type for list item content
+- [x] 3.4 Add tests verifying exhaustive type narrowing and construction
 
 ## 4. StaticPage entity
 
