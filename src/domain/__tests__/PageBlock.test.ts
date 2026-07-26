@@ -89,6 +89,10 @@ describe("The PageBlock", () => {
                     return "bulleted list";
                 case "numbered_list":
                     return "numbered list";
+                case "bulleted_list_item":
+                    return "bulleted list item";
+                case "numbered_list_item":
+                    return "numbered list item";
                 case "video":
                     return "video";
                 case "code":
@@ -109,6 +113,14 @@ describe("The PageBlock", () => {
         const callout: PageBlock = { type: "callout", richText: [] };
         const bulleted: PageBlock = { type: "bulleted_list", items: [] };
         const numbered: PageBlock = { type: "numbered_list", items: [] };
+        const bulletedItem: PageBlock = {
+            type: "bulleted_list_item",
+            richText: [],
+        };
+        const numberedItem: PageBlock = {
+            type: "numbered_list_item",
+            richText: [],
+        };
         const video: PageBlock = {
             type: "video",
             url: "https://example.com/v.mp4",
@@ -123,6 +135,8 @@ describe("The PageBlock", () => {
         expect(describeBlock(callout)).toBe("callout");
         expect(describeBlock(bulleted)).toBe("bulleted list");
         expect(describeBlock(numbered)).toBe("numbered list");
+        expect(describeBlock(bulletedItem)).toBe("bulleted list item");
+        expect(describeBlock(numberedItem)).toBe("numbered list item");
         expect(describeBlock(video)).toBe("video");
         expect(describeBlock(code)).toBe("code");
         expect(describeBlock(quote)).toBe("quote");
@@ -189,6 +203,22 @@ describe("The PageBlock", () => {
             richText: [RichText.create({ content: "A wise quote" })],
         };
         expect(block.richText[0].content).toBe("A wise quote");
+    });
+
+    test("discriminates bulleted list item by type", () => {
+        const block: PageBlock = {
+            type: "bulleted_list_item",
+            richText: [],
+        };
+        expect(block.type).toBe("bulleted_list_item");
+    });
+
+    test("discriminates numbered list item by type", () => {
+        const block: PageBlock = {
+            type: "numbered_list_item",
+            richText: [],
+        };
+        expect(block.type).toBe("numbered_list_item");
     });
 
     test("accepts video url", () => {

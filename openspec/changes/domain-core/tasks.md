@@ -32,8 +32,8 @@
 
 ## 6. PageBlockTransformer
 
-- [ ] 6.1 Implement `PageBlockTransformer.groupConsecutiveItems(blocks: PageBlock[]): PageBlock[]`
-- [ ] 6.2 Write tests covering: consecutive grouping, non-consecutive preservation, non-list passthrough, separate list type handling, idempotence
+- [x] 6.1 Implement `PageBlockTransformer.groupConsecutiveItems(blocks: PageBlock[]): PageBlock[]`
+- [x] 6.2 Write tests covering: consecutive grouping, non-consecutive preservation, non-list passthrough, separate list type handling, idempotence
 
 ## 7. Domain index
 

@@ -4,6 +4,16 @@ export interface ListItem {
     richText: RichText[];
 }
 
+export interface BulletedListItem {
+    type: "bulleted_list_item";
+    richText: RichText[];
+}
+
+export interface NumberedListItem {
+    type: "numbered_list_item";
+    richText: RichText[];
+}
+
 export interface TextBlock {
     type: "text";
     richText: RichText[];
@@ -67,6 +77,8 @@ export type PageBlock =
     | CalloutBlock
     | BulletedList
     | NumberedList
+    | BulletedListItem
+    | NumberedListItem
     | VideoBlock
     | CodeBlock
     | QuoteBlock
