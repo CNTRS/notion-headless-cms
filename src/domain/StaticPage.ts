@@ -46,4 +46,18 @@ export class StaticPage {
         }
         return new StaticPage(props);
     }
+
+    withContent(content: PageBlock[]): StaticPage {
+        return new StaticPage({
+            id: this.id,
+            slug: this.slug,
+            status: this.status,
+            title: this.title,
+            tags: this.tags,
+            author: this.author,
+            createdAt: this.createdAt,
+            updatedAt: this.updatedAt,
+            content,
+        });
+    }
 }

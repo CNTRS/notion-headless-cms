@@ -20,7 +20,7 @@
 ## 4. StaticPage entity
 
 - [x] 4.1 Implement `StaticPage` with private constructor and `static create()` factory
-- [ ] 4.2 Implement `withContent()` method returning a new instance
+- [x] 4.2 Implement `withContent()` method returning a new instance
 - [ ] 4.3 Implement `equals()` based on `PageId`
 - [ ] 4.4 Create `StaticPageBuilder` fluent builder in `src/domain/__tests__/builders/`
 - [ ] 4.5 Write tests for `StaticPage.create()`, validation, `withContent()`, `equals()`

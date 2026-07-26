@@ -4,6 +4,8 @@ import { PageId } from "../PageId";
 import { Slug } from "../Slug";
 import { PageStatus } from "../PageStatus";
 import { Tag } from "../Tag";
+import { RichText } from "../RichText";
+import type { PageBlock } from "../blocks";
 import { InvalidStaticPageError } from "../errors";
 
 describe("The StaticPage", () => {
@@ -89,5 +91,41 @@ describe("The StaticPage", () => {
                 title: "",
             }),
         ).toThrow(InvalidStaticPageError);
+    });
+
+    test("returns a new instance with updated content via withContent", () => {
+        const page = StaticPage.create({
+            id: pageId,
+            slug,
+            status,
+            title: "Original",
+        });
+        const richText = RichText.create({ content: "hello" });
+        const blocks: PageBlock[] = [
+            { type: "text", richText: [richText] },
+        ];
+
+        const updated = page.withContent(blocks);
+
+        expect(updated).toBeInstanceOf(StaticPage);
+        expect(updated.content).toEqual(blocks);
+        expect(updated.title).toBe("Original");
+        expect(updated.id.equals(pageId)).toBe(true);
+    });
+
+    test("does not mutate the original page when calling withContent", () => {
+        const page = StaticPage.create({
+            id: pageId,
+            slug,
+            status,
+            title: "Original",
+        });
+        const blocks: PageBlock[] = [
+            { type: "divider" },
+        ];
+
+        page.withContent(blocks);
+
+        expect(page.content).toEqual([]);
     });
 });
