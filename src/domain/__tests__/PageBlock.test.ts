@@ -102,11 +102,17 @@ describe("The PageBlock", () => {
 
         const text: PageBlock = { type: "text", richText: [] };
         const heading: PageBlock = { type: "heading_1", richText: [] };
-        const image: PageBlock = { type: "image", url: "https://example.com/img.png" };
+        const image: PageBlock = {
+            type: "image",
+            url: "https://example.com/img.png",
+        };
         const callout: PageBlock = { type: "callout", richText: [] };
         const bulleted: PageBlock = { type: "bulleted_list", items: [] };
         const numbered: PageBlock = { type: "numbered_list", items: [] };
-        const video: PageBlock = { type: "video", url: "https://example.com/v.mp4" };
+        const video: PageBlock = {
+            type: "video",
+            url: "https://example.com/v.mp4",
+        };
         const code: PageBlock = { type: "code", richText: [] };
         const quote: PageBlock = { type: "quote", richText: [] };
         const divider: PageBlock = { type: "divider" };
@@ -186,7 +192,10 @@ describe("The PageBlock", () => {
     });
 
     test("accepts video url", () => {
-        const block: PageBlock = { type: "video", url: "https://example.com/video.mp4" };
+        const block: PageBlock = {
+            type: "video",
+            url: "https://example.com/video.mp4",
+        };
         expect(block.url).toBe("https://example.com/video.mp4");
     });
 

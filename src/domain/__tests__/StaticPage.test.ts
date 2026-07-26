@@ -101,9 +101,7 @@ describe("The StaticPage", () => {
             title: "Original",
         });
         const richText = RichText.create({ content: "hello" });
-        const blocks: PageBlock[] = [
-            { type: "text", richText: [richText] },
-        ];
+        const blocks: PageBlock[] = [{ type: "text", richText: [richText] }];
 
         const updated = page.withContent(blocks);
 
@@ -120,9 +118,7 @@ describe("The StaticPage", () => {
             status,
             title: "Original",
         });
-        const blocks: PageBlock[] = [
-            { type: "divider" },
-        ];
+        const blocks: PageBlock[] = [{ type: "divider" }];
 
         page.withContent(blocks);
 
