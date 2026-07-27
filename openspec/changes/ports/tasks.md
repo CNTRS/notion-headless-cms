@@ -8,7 +8,7 @@
 
 ## 3. Ports index
 
-- [ ] 3.1 Create `src/ports/index.ts` re-exporting both interfaces
+- [x] 3.1 Create `src/ports/index.ts` re-exporting both interfaces
 
 ## 4. Verification
 
