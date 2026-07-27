@@ -2,7 +2,7 @@ import { describe, test, expect } from "vitest";
 import type { IPageRepository, IImageFetcher } from "../index";
 
 describe("The ports index", () => {
-    test("re-exports IPageRepository type", () => {
+    test("exposes page repository contract", () => {
         const _repo: IPageRepository = {
             listPages: () => Promise.resolve([]),
             getPage: () => Promise.resolve(null),
@@ -11,7 +11,7 @@ describe("The ports index", () => {
         expect(_repo).toBeDefined();
     });
 
-    test("re-exports IImageFetcher type", () => {
+    test("exposes image fetcher contract", () => {
         const _fetcher: IImageFetcher = {
             fetch: () => Promise.resolve(Buffer.from("")),
         };
