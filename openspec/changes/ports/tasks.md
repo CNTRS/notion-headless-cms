@@ -4,7 +4,7 @@
 
 ## 2. IImageFetcher
 
-- [ ] 2.1 Create `src/ports/IImageFetcher.ts` with `fetch(url: string): Promise<Buffer>` method
+- [x] 2.1 Create `src/ports/IImageFetcher.ts` with `fetch(url: string): Promise<Buffer>` method
 
 ## 3. Ports index
 
