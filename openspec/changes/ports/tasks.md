@@ -12,6 +12,6 @@
 
 ## 4. Verification
 
-- [ ] 4.1 Run `pnpm test` to confirm all tests pass
-- [ ] 4.2 Run `pnpm lint` to confirm no lint errors
-- [ ] 4.3 Run `pnpm build` to confirm compilation
+- [x] 4.1 Run `pnpm test` to confirm all tests pass
+- [x] 4.2 Run `pnpm lint` to confirm no lint errors
+- [x] 4.3 Run `pnpm build` to confirm compilation
