@@ -1,6 +1,6 @@
 ## 1. IPageRepository
 
-- [ ] 1.1 Create `src/ports/IPageRepository.ts` with `listPages()`, `getPage()`, `getPageBlocks()` methods using domain types only
+- [x] 1.1 Create `src/ports/IPageRepository.ts` with `listPages()`, `getPage()`, `getPageBlocks()` methods using domain types only
 
 ## 2. IImageFetcher
 
