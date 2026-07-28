@@ -1,0 +1,53 @@
+{
+    "object": "database",
+    "id": "7431d3ba-b390-4418-ae50-e68277a29263",
+    "created_time": "2023-01-01T00:00:00.000Z",
+    "last_edited_time": "2023-12-01T12:00:00.000Z",
+    "created_by": {
+        "object": "user",
+        "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
+    },
+    "last_edited_by": {
+        "object": "user",
+        "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
+    },
+    "title": [
+        {
+            "type": "text",
+            "text": {
+                "content": "Headless CMS",
+                "link": null
+            },
+            "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+            },
+            "plain_text": "Headless CMS",
+            "href": null
+        }
+    ],
+    "description": [],
+    "icon": null,
+    "cover": null,
+    "properties": {},
+    "parent": {
+        "type": "workspace",
+        "workspace": true
+    },
+    "url": "https://www.notion.so/7431d3bab3904418ae50e68277a29263",
+    "public_url": null,
+    "in_trash": false,
+    "is_archived": false,
+    "is_locked": false,
+    "data_sources": [
+        {
+            "id": "ds_ad9bcf91",
+            "name": "Headless CMS Data Source",
+            "type": "data_source"
+        }
+    ]
+}

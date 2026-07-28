@@ -70,9 +70,31 @@ async listPages(): Promise<StaticPage[]> {
 
 ### Fixture updates for 2025-09-03 response format
 
-**Decision:** Re-capture the Notion API responses after the upgrade to verify the response shape, then update or replace the fixture JSON files. The `data_sources[]` field in database responses is the main structural addition.
+**Decision:** Create 11 fixture files in `openspec/changes/upgrade-notion-sdk/fixtures/` that reflect the v5 API response shape. Three categories of change from the v2 fixtures in `infrastructure-repository`:
 
-**Rationale:** The fixtures are the source of truth for tests. Running against the real API once after upgrade is the only way to guarantee they reflect actual responses.
+1. **dataSources.query.\*.json** (3 files) — The v5 `dataSources.query()` endpoint wraps results differently: the root object gains `"type": "page_or_data_source"` and `"page_or_data_source": {}`. The `"archived"` field is removed from each `PageObjectResponse` (replaced by `"in_trash"` in v5). File renamed from `databases.query` to `dataSources.query`.
+
+2. **databases.retrieve.json** (1 file, new) — The resolution step (Task 3) calls `databases.retrieve()` to obtain the `data_source_id`. The fixture includes a `data_sources[]` array whose `id` matches the one used in `dataSources.query` fixtures.
+
+3. **pages.\* / blocks.\*.json** (7 files) — No structural changes between v2 and v5 for these response shapes. Copied identically from `infrastructure-repository`, with only `"archived"` removed from each page/block object.
+
+**Rationale:** The v5 SDK changes affect only the query path; `client.pages.retrieve()` and `client.blocks.children.list()` return the same shapes. Re-capturing from the live API would be ideal but is deferred — the transformed fixtures match the documented v5 schema and will be validated when the adapter tests run.
+
+**File inventory:**
+
+| Fixture | Handler URL (v5) |
+|---|---|
+| `dataSources.query.json` | `POST /v1/data_sources/:id/query` |
+| `dataSources.query.empty.json` | `POST /v1/data_sources/:id/query` |
+| `dataSources.query.sparse.json` | `POST /v1/data_sources/:id/query` |
+| `databases.retrieve.json` | `GET /v1/databases/:id` |
+| `pages.retrieve.json` | `GET /v1/pages/:id` |
+| `pages.retrieve.minimal.json` | `GET /v1/pages/:id` |
+| `blocks.children.list.json` | `GET /v1/blocks/:id/children` |
+| `blocks.children.list.empty.json` | `GET /v1/blocks/:id/children` |
+| `blocks.children.list.paginated.1.json` | `GET /v1/blocks/:id/children` |
+| `blocks.children.list.paginated.2.json` | `GET /v1/blocks/:id/children` |
+| `blocks.children.list.unsupported.json` | `GET /v1/blocks/:id/children` |
 
 ### NotionPageRepository test structure unchanged
 
