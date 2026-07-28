@@ -18,10 +18,10 @@
 - [ ] 3.2 Create `src/test/msw/server.ts` — shared MSW server
 - [ ] 3.3 Create `src/test/msw/handlers.ts` — handlers for Notion endpoints
 
-## 4. Fixture directory (content PENDING)
+## 4. API fixtures para MSW
 
 - [ ] 4.1 Create `src/test/msw/fixtures/` directory
-- [ ] 4.2 Add `.gitkeep` to fixtures/ (files to be populated later by capturing real Notion responses)
+- [ ] 4.2 Copy `openspec/changes/infrastructure-repository/fixtures/*.json` → `src/test/msw/fixtures/`
 
 ## 5. Adapter tests
 

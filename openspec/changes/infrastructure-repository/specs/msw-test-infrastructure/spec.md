@@ -27,15 +27,46 @@ The system SHALL provide MSW request handlers for each Notion API endpoint the s
 - **WHEN** the Notion SDK calls `databases.query()`
 - **THEN** the handler SHALL return the fixture from `fixtures/databases.query.json`
 
-### Requirement: Fixture files (PENDING — to be captured from real API)
+### Requirement: Fixture files
 
 The system SHALL store Notion API response fixtures as JSON files in `src/test/msw/fixtures/`.
 
-- Each fixture file SHALL be named after the endpoint it represents (e.g., `databases.query.json`, `pages.retrieve.json`, `blocks.children.list.json`)
-- Fixtures SHALL be captured from real Notion API responses, then trimmed to relevant fields
-- **Status**: PENDING — requires the developer to run against their Notion database and capture responses
+- Each fixture file SHALL be named after the endpoint and scenario it represents
+- Fixtures SHALL be hand-crafted from the official Notion API documentation shapes, verified against the OpenAPI schemas of `@notionhq/client`
+- UUIDs SHALL be valid UUIDv4 format to pass `PageId.create()` validation
+- Fixtures for the same page SHALL share consistent IDs across files (page IDs, parent IDs)
 
-#### Scenario: Fixture directory structure
+#### Scenario: Default handlers load standard fixtures
 
-- **WHEN** inspecting `src/test/msw/fixtures/`
-- **THEN** it SHALL exist with placeholder files for each endpoint
+- **GIVEN** the default MSW handlers
+- **WHEN** a Notion API request is made
+- **THEN** the handler SHALL respond with:
+  - `POST /v1/databases/{id}/query` → `fixtures/databases.query.json`
+  - `GET /v1/pages/{id}` → `fixtures/pages.retrieve.json`
+  - `GET /v1/blocks/{id}/children` → `fixtures/blocks.children.list.json`
+
+#### Scenario: Specific tests override handlers with scenario fixtures
+
+- **WHEN** a test registers a one-shot handler via `server.use()`
+- **THEN** the test SHALL be able to load any fixture file to simulate:
+  - Empty result: `databases.query.empty.json` / `blocks.children.list.empty.json`
+  - Sparse data: `databases.query.sparse.json`
+  - Minimal partial response: `pages.retrieve.minimal.json`
+  - Pagination: `blocks.children.list.paginated.1.json` + `.2.json`
+  - Unsupported block types: `blocks.children.list.unsupported.json`
+  - Error responses (404, 429, etc.): inline `HttpResponse.json()` with status code
+
+#### Fixture inventory
+
+| File | Endpoint | Scenario | Blocks/Pages |
+|---|---|---|---|
+| `databases.query.json` | databases.query | Happy path | 2 pages completas |
+| `databases.query.empty.json` | databases.query | DB vacía | `results: []` |
+| `databases.query.sparse.json` | databases.query | Props opcionales ausentes | 1 page sin tags/author |
+| `pages.retrieve.json` | pages.retrieve | Happy path | 1 page, status "published" |
+| `pages.retrieve.minimal.json` | pages.retrieve | Partial response | Solo `object` + `id` |
+| `blocks.children.list.json` | blocks.children.list | Happy path | 15 bloques, todos los tipos |
+| `blocks.children.list.empty.json` | blocks.children.list | Página sin contenido | `results: []` |
+| `blocks.children.list.paginated.1.json` | blocks.children.list | Paginación página 1 | 3 bloques, `has_more: true` |
+| `blocks.children.list.paginated.2.json` | blocks.children.list | Paginación página 2 | 2 bloques, `has_more: false` |
+| `blocks.children.list.unsupported.json` | blocks.children.list | Tipos no soportados | bookmark, table, unsupported |
