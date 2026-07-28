@@ -1,7 +1,7 @@
 ---
 description: Archives the completed change into the project's global spec.
 mode: primary
-model: opencode-zen/deepseek-v4-flash-free
+model: opencode/deepseek-v4-flash-free
 permission:
   edit: allow
   bash: allow

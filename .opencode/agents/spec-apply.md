@@ -1,7 +1,7 @@
 ---
 description: Implements one OpenSpec task per turn with strict TDD baby steps. Driven by the Ralph runner.
 mode: primary
-model: opencode-zen/deepseek-v4-flash-free
+model: opencode/deepseek-v4-flash-free
 permission:
   edit: allow
   bash: allow
