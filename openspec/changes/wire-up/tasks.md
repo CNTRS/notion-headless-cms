@@ -13,8 +13,8 @@
 
 ## 2. Rewrite main.ts
 
-- [ ] 2.1 Wire composition root: create `Client`, `NotionPageRepository`, `HttpImageFetcher`, `NotionCMS`
-- [ ] 2.2 Export `NotionCMS` class for consumers (not a pre-wired instance — keep flexibility)
+- [x] 2.1 Wire composition root: create `Client`, `NotionPageRepository`, `HttpImageFetcher`, `NotionCMS`
+- [x] 2.2 Export `NotionCMS` class for consumers (not a pre-wired instance — keep flexibility)
 
 ## 3. Delete old helpers
 
