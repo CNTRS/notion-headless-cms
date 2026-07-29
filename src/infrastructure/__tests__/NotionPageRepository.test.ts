@@ -252,4 +252,81 @@ describe("The NotionPageRepository", () => {
 
         expect(page).toBeNull();
     });
+
+    test("getPageBlocks fetches blocks with pagination and maps to PageBlock[]", async () => {
+        const client = mockClient() as Record<string, unknown>;
+        const blocksList = vi
+            .fn()
+            .mockResolvedValueOnce({
+                object: "list",
+                type: "block",
+                results: [
+                    {
+                        object: "block",
+                        id: "c1000001-0000-4000-8000-000000000001",
+                        type: "paragraph",
+                        paragraph: {
+                            rich_text: [
+                                {
+                                    type: "text",
+                                    text: { content: "First page", link: null },
+                                    plain_text: "First page",
+                                },
+                            ],
+                            color: "default",
+                        },
+                    },
+                ],
+                next_cursor: "cursor-2",
+                has_more: true,
+            })
+            .mockResolvedValueOnce({
+                object: "list",
+                type: "block",
+                results: [
+                    {
+                        object: "block",
+                        id: "c2000001-0000-4000-8000-000000000001",
+                        type: "paragraph",
+                        paragraph: {
+                            rich_text: [
+                                {
+                                    type: "text",
+                                    text: {
+                                        content: "Second page",
+                                        link: null,
+                                    },
+                                    plain_text: "Second page",
+                                },
+                            ],
+                            color: "default",
+                        },
+                    },
+                ],
+                next_cursor: null,
+                has_more: false,
+            });
+        (client as Record<string, unknown>).blocks = {
+            children: { list: blocksList },
+        };
+        const repo = new NotionPageRepository(
+            client as never,
+            "7431d3ba-b390-4418-ae50-e68277a29263",
+        );
+        const pageId = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
+
+        const blocks = await repo.getPageBlocks(pageId);
+
+        expect(blocksList).toHaveBeenCalledTimes(2);
+        expect(blocksList).toHaveBeenNthCalledWith(1, {
+            block_id: "ad9bcf91-3a83-4504-91ba-e2503d90caba",
+        });
+        expect(blocksList).toHaveBeenNthCalledWith(2, {
+            block_id: "ad9bcf91-3a83-4504-91ba-e2503d90caba",
+            start_cursor: "cursor-2",
+        });
+        expect(blocks).toHaveLength(2);
+        expect(blocks[0].type).toBe("text");
+        expect(blocks[1].type).toBe("text");
+    });
 });

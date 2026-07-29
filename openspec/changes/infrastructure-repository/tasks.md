@@ -3,7 +3,7 @@
 - [x] 1.1 Create `src/infrastructure/NotionPageRepository.ts` implementing `IPageRepository`
 - [x] 1.2 Implement `listPages()` — call `client.databases.query()`, map results to `StaticPage[]`
 - [x] 1.3 Implement `getPage()` — call `client.pages.retrieve()`, map to `StaticPage | null`
-- [ ] 1.4 Implement `getPageBlocks()` — paginated `client.blocks.children.list()`, map to `PageBlock[]`
+- [x] 1.4 Implement `getPageBlocks()` — paginated `client.blocks.children.list()`, map to `PageBlock[]`
 - [ ] 1.5 Build Notion-to-domain type mapping helper (properties → StaticPage)
 - [ ] 1.6 Build Notion-to-domain block mapping helper (block → PageBlock)
 

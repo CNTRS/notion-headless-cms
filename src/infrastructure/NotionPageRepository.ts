@@ -7,6 +7,7 @@ import { PageId } from "../domain/PageId";
 import { Slug } from "../domain/Slug";
 import { PageStatus } from "../domain/PageStatus";
 import { Tag } from "../domain/Tag";
+import { RichText } from "../domain/RichText";
 
 interface NotionProperty {
     type: string;
@@ -104,6 +105,127 @@ function mapNotionPage(page: PageObjectResponse): StaticPage {
     });
 }
 
+type NotionBlock = {
+    type: string;
+    [key: string]: unknown;
+};
+
+function extractRichTextFromBlock(block: NotionBlock): Array<{
+    content: string;
+    bold?: boolean;
+    italic?: boolean;
+    strikethrough?: boolean;
+    underline?: boolean;
+    code?: boolean;
+    color?: string;
+    href?: string;
+}> {
+    const blockData = block[block.type] as
+        | { rich_text?: Array<Record<string, unknown>> }
+        | undefined;
+    if (!blockData?.rich_text) return [];
+    return blockData.rich_text.map((rt: Record<string, unknown>) => {
+        const annotations = (rt.annotations as Record<string, unknown>) || {};
+        const text = (rt.text as Record<string, unknown>) || {};
+        return {
+            content:
+                (rt.plain_text as string) ?? (text.content as string) ?? "",
+            bold: !!annotations.bold,
+            italic: !!annotations.italic,
+            strikethrough: !!annotations.strikethrough,
+            underline: !!annotations.underline,
+            code: !!annotations.code,
+            color: annotations.color as string | undefined,
+            href: (rt.href as string | null | undefined) ?? undefined,
+        };
+    });
+}
+
+function mapNotionBlock(block: NotionBlock): PageBlock | null {
+    const type = block.type;
+
+    switch (type) {
+        case "paragraph":
+        case "text":
+            return {
+                type: "text",
+                richText: extractRichTextFromBlock(block).map(RichText.create),
+            };
+
+        case "heading_1":
+        case "heading_2":
+        case "heading_3":
+            return {
+                type,
+                richText: extractRichTextFromBlock(block).map(RichText.create),
+            };
+
+        case "image": {
+            const imageData = block.image as
+                | {
+                      type?: string;
+                      external?: { url: string };
+                      file?: { url: string };
+                  }
+                | undefined;
+            const url = imageData?.external?.url ?? imageData?.file?.url ?? "";
+            return { type: "image", url };
+        }
+
+        case "bulleted_list_item":
+            return {
+                type: "bulleted_list_item",
+                richText: extractRichTextFromBlock(block).map(RichText.create),
+            };
+
+        case "numbered_list_item":
+            return {
+                type: "numbered_list_item",
+                richText: extractRichTextFromBlock(block).map(RichText.create),
+            };
+
+        case "callout": {
+            const calloutData = block.callout as
+                | { icon?: { type: string; emoji?: string } }
+                | undefined;
+            return {
+                type: "callout",
+                richText: extractRichTextFromBlock(block).map(RichText.create),
+                icon: calloutData?.icon?.emoji,
+            };
+        }
+
+        case "video": {
+            const videoData = block.video as
+                | { external?: { url: string }; file?: { url: string } }
+                | undefined;
+            const url = videoData?.external?.url ?? videoData?.file?.url ?? "";
+            return { type: "video", url };
+        }
+
+        case "code": {
+            const codeData = block.code as { language?: string } | undefined;
+            return {
+                type: "code",
+                richText: extractRichTextFromBlock(block).map(RichText.create),
+                language: codeData?.language,
+            };
+        }
+
+        case "quote":
+            return {
+                type: "quote",
+                richText: extractRichTextFromBlock(block).map(RichText.create),
+            };
+
+        case "divider":
+            return { type: "divider" };
+
+        default:
+            return null;
+    }
+}
+
 export class NotionPageRepository implements IPageRepository {
     constructor(
         private client: Client,
@@ -142,7 +264,26 @@ export class NotionPageRepository implements IPageRepository {
         }
     }
 
-    async getPageBlocks(_id: PageId): Promise<PageBlock[]> {
-        return [];
+    async getPageBlocks(id: PageId): Promise<PageBlock[]> {
+        const blocks: PageBlock[] = [];
+        let cursor: string | undefined;
+        let hasMore = true;
+
+        while (hasMore) {
+            const response = await this.client.blocks.children.list({
+                block_id: id.toString(),
+                start_cursor: cursor,
+            });
+            for (const block of response.results) {
+                if (block.object !== "block") continue;
+                if (!("type" in block)) continue;
+                const mapped = mapNotionBlock(block as NotionBlock);
+                if (mapped) blocks.push(mapped);
+            }
+            hasMore = response.has_more;
+            cursor = response.next_cursor ?? undefined;
+        }
+
+        return blocks;
     }
 }
