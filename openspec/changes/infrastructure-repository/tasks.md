@@ -40,6 +40,6 @@
 
 ## 7. Verification
 
-- [ ] 7.1 Run `pnpm test` — all new and old tests pass
-- [ ] 7.2 Run `pnpm lint` — no errors
-- [ ] 7.3 Run `pnpm build` — compilation succeeds
+- [x] 7.1 Run `pnpm test` — all new and old tests pass
+- [x] 7.2 Run `pnpm lint` — no errors
+- [x] 7.3 Run `pnpm build` — compilation succeeds
