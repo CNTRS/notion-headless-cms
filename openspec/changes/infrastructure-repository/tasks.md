@@ -36,7 +36,7 @@
 
 ## 6. Infrastructure index
 
-- [ ] 6.1 Create `src/infrastructure/index.ts` re-exporting adapters
+- [x] 6.1 Create `src/infrastructure/index.ts` re-exporting adapters
 
 ## 7. Verification
 
