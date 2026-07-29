@@ -25,14 +25,14 @@
 
 ## 5. Adapter tests
 
-- [ ] 5.1 Create `src/infrastructure/__tests__/NotionPageRepository.test.ts` with MSW-based tests
-- [ ] 5.2 Test: list pages returns mapped StaticPage[]
-- [ ] 5.3 Test: getPage returns mapped StaticPage for existing ID
-- [ ] 5.4 Test: getPage returns null for missing ID
-- [ ] 5.5 Test: getPageBlocks handles pagination
-- [ ] 5.6 Create `src/infrastructure/__tests__/HttpImageFetcher.test.ts`
-- [ ] 5.7 Test: fetch returns Buffer for successful response
-- [ ] 5.8 Test: fetch throws on HTTP error
+- [x] 5.1 Create `src/infrastructure/__tests__/NotionPageRepository.test.ts` with MSW-based tests
+- [x] 5.2 Test: list pages returns mapped StaticPage[]
+- [x] 5.3 Test: getPage returns mapped StaticPage for existing ID
+- [x] 5.4 Test: getPage returns null for missing ID
+- [x] 5.5 Test: getPageBlocks handles pagination
+- [x] 5.6 Create `src/infrastructure/__tests__/HttpImageFetcher.test.ts`
+- [x] 5.7 Test: fetch returns Buffer for successful response
+- [x] 5.8 Test: fetch throws on HTTP error
 
 ## 6. Infrastructure index
 
