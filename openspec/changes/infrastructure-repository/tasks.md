@@ -10,7 +10,7 @@
 ## 2. HttpImageFetcher
 
 - [x] 2.1 Create `src/infrastructure/HttpImageFetcher.ts` implementing `IImageFetcher`
-- [ ] 2.2 Implement `fetch()` using global `fetch` + `Buffer.from(arrayBuffer)`
+- [x] 2.2 Implement `fetch()` using global `fetch` + `Buffer.from(arrayBuffer)`
 
 ## 3. MSW test infrastructure
 
