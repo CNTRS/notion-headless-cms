@@ -18,9 +18,9 @@
 
 ## 3. Delete old helpers
 
-- [ ] 3.1 Delete `src/helpers.ts`
-- [ ] 3.2 Delete `src/helpers.mocks.ts`
-- [ ] 3.3 Delete `src/helpers.test.ts`
+- [x] 3.1 Delete `src/helpers.ts`
+- [x] 3.2 Delete `src/helpers.mocks.ts`
+- [x] 3.3 Delete `src/helpers.test.ts`
 
 ## 4. Update tests
 
