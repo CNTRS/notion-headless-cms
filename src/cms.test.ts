@@ -4,6 +4,7 @@ import NotionCMS from "./cms";
 import type { IPageRepository } from "./ports";
 import type { IImageFetcher } from "./ports";
 import { StaticPage, PageId, Slug, PageStatus } from "./domain";
+import type { PageBlock } from "./domain";
 import { PAGE_ID, PAGE_METADATA_AND_CONTENT } from "./helpers.mocks";
 
 describe("The NotionCMS", () => {
@@ -69,6 +70,28 @@ describe("The NotionCMS", () => {
         expect(pages).toHaveLength(1);
         expect(pages[0]).toBeInstanceOf(StaticPage);
         expect(pages[0].id.equals(page.id)).toBe(true);
+    });
+
+    test("retrieves page content from repository by id", async () => {
+        const id = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
+        const blocks: PageBlock[] = [
+            { type: "text", richText: [] },
+            { type: "image", url: "https://example.com/img.png" },
+        ];
+        const repository: IPageRepository = {
+            listPages: () => Promise.resolve([]),
+            getPage: () => Promise.resolve(null),
+            getPageBlocks: (pageId: PageId) =>
+                Promise.resolve(pageId.equals(id) ? blocks : []),
+        };
+        const imageFetcher: IImageFetcher = {
+            fetch: () => Promise.resolve(Buffer.from("")),
+        };
+        const cms = new NotionCMS(repository, imageFetcher);
+
+        const result = await cms.getPageContent(id);
+
+        expect(result).toEqual(blocks);
     });
 });
 

@@ -1,4 +1,4 @@
-import type { PageId, StaticPage } from "./domain";
+import type { PageId, StaticPage, PageBlock } from "./domain";
 import type { IPageRepository } from "./ports";
 import type { IImageFetcher } from "./ports";
 
@@ -13,26 +13,8 @@ export default class NotionCMS {
     async getPage(id: PageId): Promise<StaticPage | null> {
         return this.repository.getPage(id);
     }
-    async getPageContent(
-        id: TNotionEntryId,
-    ): Promise<Array<PartialBlockObjectResponse | BlockObjectResponse>> {
-        let has_more = true,
-            start_cursor: undefined | string;
-
-        const content = [];
-
-        while (has_more) {
-            const result = await this.client.blocks.children.list({
-                block_id: id,
-                start_cursor: start_cursor,
-            });
-            content.push(...result.results);
-            has_more = result.has_more;
-            if (has_more && result.next_cursor != null) {
-                start_cursor = result.next_cursor;
-            }
-        }
-        return content;
+    async getPageContent(id: PageId): Promise<PageBlock[]> {
+        return this.repository.getPageBlocks(id);
     }
     async getPageWithContent(id: string): Promise<any> {
         const pageResult = await this.getPage(id);
