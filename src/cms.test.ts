@@ -22,6 +22,31 @@ describe("The NotionCMS", () => {
         expect((cms as Record<string, unknown>).imageFetcher).toBe(imageFetcher);
     });
 
+    test("retrieves page from repository by id", async () => {
+        const id = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
+        const page = StaticPage.create({
+            id,
+            slug: Slug.create("test-page"),
+            status: PageStatus.create("draft"),
+            title: "Test Page",
+        });
+        const repository: IPageRepository = {
+            listPages: () => Promise.resolve([]),
+            getPage: (pageId: PageId) =>
+                Promise.resolve(pageId.equals(id) ? page : null),
+            getPageBlocks: () => Promise.resolve([]),
+        };
+        const imageFetcher: IImageFetcher = {
+            fetch: () => Promise.resolve(Buffer.from("")),
+        };
+        const cms = new NotionCMS(repository, imageFetcher);
+
+        const result = await cms.getPage(id);
+
+        expect(result).toBeInstanceOf(StaticPage);
+        expect(result?.id.equals(id)).toBe(true);
+    });
+
     test("lists pages from repository", async () => {
         const page = StaticPage.create({
             id: PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba"),
