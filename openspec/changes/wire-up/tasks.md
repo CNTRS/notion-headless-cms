@@ -9,7 +9,7 @@
 - [x] 1.7 Extract private `processBlocks(blocks: PageBlock[]): Promise<PageBlock[]>` helper for image download + transform + grouping
 - [x] 1.8 Remove `INotionCMS` interface
 - [x] 1.9 Remove `TNotionCMSOptions` and related unused types (`TTimestampPropertyConfig`, `TSlugPropertyConfig`, `TStatusPropertyConfig`)
-- [ ] 1.10 Remove `TNotionPage` and `TNotionEntryId` types
+- [x] 1.10 Remove `TNotionPage` and `TNotionEntryId` types
 
 ## 2. Rewrite main.ts
 
