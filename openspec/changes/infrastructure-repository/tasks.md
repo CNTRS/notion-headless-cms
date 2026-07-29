@@ -1,6 +1,6 @@
 ## 1. NotionPageRepository
 
-- [ ] 1.1 Create `src/infrastructure/NotionPageRepository.ts` implementing `IPageRepository`
+- [x] 1.1 Create `src/infrastructure/NotionPageRepository.ts` implementing `IPageRepository`
 - [ ] 1.2 Implement `listPages()` — call `client.databases.query()`, map results to `StaticPage[]`
 - [ ] 1.3 Implement `getPage()` — call `client.pages.retrieve()`, map to `StaticPage | null`
 - [ ] 1.4 Implement `getPageBlocks()` — paginated `client.blocks.children.list()`, map to `PageBlock[]`
