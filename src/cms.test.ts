@@ -1,7 +1,26 @@
-import { test, expect } from "vitest";
+import { describe, test, expect } from "vitest";
 import "dotenv/config";
 import NotionCMS from "./cms";
+import type { IPageRepository } from "./ports";
+import type { IImageFetcher } from "./ports";
 import { PAGE_ID, PAGE_METADATA_AND_CONTENT } from "./helpers.mocks";
+
+describe("The NotionCMS", () => {
+    test("accepts repository and image fetcher", () => {
+        const repository: IPageRepository = {
+            listPages: () => Promise.resolve([]),
+            getPage: () => Promise.resolve(null),
+            getPageBlocks: () => Promise.resolve([]),
+        };
+        const imageFetcher: IImageFetcher = {
+            fetch: () => Promise.resolve(Buffer.from("")),
+        };
+        const cms = new NotionCMS(repository, imageFetcher);
+        expect(cms).toBeInstanceOf(NotionCMS);
+        expect((cms as Record<string, unknown>).repository).toBe(repository);
+        expect((cms as Record<string, unknown>).imageFetcher).toBe(imageFetcher);
+    });
+});
 
 test("Get Page metadata", async () => {
     const dbId = String(process.env.NOTION_DB);

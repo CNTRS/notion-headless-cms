@@ -1,61 +1,11 @@
-import { Client } from "@notionhq/client";
-import type {
-    PageObjectResponse,
-    PartialPageObjectResponse,
-    DatabaseObjectResponse,
-    PartialDatabaseObjectResponse,
-    BlockObjectResponse,
-    PartialBlockObjectResponse,
-} from "@notionhq/client/build/src/api-endpoints";
+import type { IPageRepository } from "./ports";
+import type { IImageFetcher } from "./ports";
 
-type TNotionCMSOptions = {
-    token: string;
-    db: string;
-    timestamp?: TTimestampPropertyConfig;
-    slug?: TSlugPropertyConfig;
-    status?: TStatusPropertyConfig;
-};
-
-type TTimestampPropertyConfig = {
-    key: string;
-    alowedValues: string[];
-};
-
-type TSlugPropertyConfig = {
-    key: string;
-};
-
-type TStatusPropertyConfig = {
-    key: string;
-};
-
-type TNotionPage = (
-    | PartialPageObjectResponse
-    | PageObjectResponse
-    | PartialDatabaseObjectResponse
-    | DatabaseObjectResponse
-) & {
-    content?: Array<PartialBlockObjectResponse | BlockObjectResponse>;
-};
-
-type TNotionEntryId = string;
-
-interface INotionCMS {
-    listPages(): Promise<TNotionPage[]>;
-    getPage(id: TNotionEntryId): Promise<TNotionPage>;
-    getPageContent(
-        id: TNotionEntryId,
-    ): Promise<Array<PartialBlockObjectResponse | BlockObjectResponse>>;
-    getAllPagesContent(): Promise<TNotionPage[]>;
-}
-
-export default class NotionCMS implements INotionCMS {
-    private client: Client;
-    private db: string;
-    constructor(options: TNotionCMSOptions) {
-        this.client = new Client({ auth: options.token });
-        this.db = options.db;
-    }
+export default class NotionCMS {
+    constructor(
+        private readonly repository: IPageRepository,
+        private readonly imageFetcher: IImageFetcher,
+    ) {}
     async listPages(): Promise<Array<TNotionPage>> {
         const result = await this.client.databases.query({
             database_id: this.db,
