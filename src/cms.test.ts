@@ -246,5 +246,3 @@ describe("The NotionCMS", () => {
         expect(result.content[2]).toEqual({ type: "text", richText: [] });
     });
 });
-
-

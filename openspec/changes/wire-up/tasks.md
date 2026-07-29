@@ -29,11 +29,11 @@
 
 ## 5. Update example
 
-- [ ] 5.1 Update `examples/fetch-and-store.ts` for new constructor and return types
+- [x] 5.1 Update `examples/fetch-and-store.ts` for new constructor and return types
 
 ## 6. Verification
 
-- [ ] 6.1 Run `pnpm test` — all tests pass
-- [ ] 6.2 Run `pnpm lint` — no errors
-- [ ] 6.3 Run `pnpm build` — compilation succeeds
-- [ ] 6.4 Verify example runs (requires `.env`)
+- [x] 6.1 Run `pnpm test` — all tests pass
+- [x] 6.2 Run `pnpm lint` — no errors
+- [x] 6.3 Run `pnpm build` — compilation succeeds
+- [x] 6.4 Verify example runs (requires `.env`)
