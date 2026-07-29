@@ -14,14 +14,14 @@
 
 ## 3. MSW test infrastructure
 
-- [ ] 3.1 Install `msw` dev dependency
-- [ ] 3.2 Create `src/test/msw/server.ts` — shared MSW server
-- [ ] 3.3 Create `src/test/msw/handlers.ts` — handlers for Notion endpoints
+- [x] 3.1 Install `msw` dev dependency
+- [x] 3.2 Create `src/test/msw/server.ts` — shared MSW server
+- [x] 3.3 Create `src/test/msw/handlers.ts` — handlers for Notion endpoints
 
 ## 4. API fixtures para MSW
 
-- [ ] 4.1 Create `src/test/msw/fixtures/` directory
-- [ ] 4.2 Copy `openspec/changes/infrastructure-repository/fixtures/*.json` → `src/test/msw/fixtures/`
+- [x] 4.1 Create `src/test/msw/fixtures/` directory
+- [x] 4.2 Copy `openspec/changes/infrastructure-repository/fixtures/*.json` → `src/test/msw/fixtures/`
 
 ## 5. Adapter tests
 
