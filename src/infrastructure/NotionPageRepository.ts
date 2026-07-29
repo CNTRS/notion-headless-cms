@@ -122,8 +122,24 @@ export class NotionPageRepository implements IPageRepository {
             .map(mapNotionPage);
     }
 
-    async getPage(_id: PageId): Promise<StaticPage | null> {
-        return null;
+    async getPage(id: PageId): Promise<StaticPage | null> {
+        try {
+            const response = await this.client.pages.retrieve({
+                page_id: id.toString(),
+            });
+            if (!("properties" in response)) return null;
+            return mapNotionPage(response as PageObjectResponse);
+        } catch (err: unknown) {
+            if (
+                err &&
+                typeof err === "object" &&
+                "status" in err &&
+                (err as { status: number }).status === 404
+            ) {
+                return null;
+            }
+            throw err;
+        }
     }
 
     async getPageBlocks(_id: PageId): Promise<PageBlock[]> {

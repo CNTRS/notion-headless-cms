@@ -6,6 +6,14 @@ import { Slug } from "../../domain/Slug";
 import { PageStatus } from "../../domain/PageStatus";
 import { Tag } from "../../domain/Tag";
 
+class NotFoundError extends Error {
+    status: number;
+    constructor() {
+        super("Not found");
+        this.status = 404;
+    }
+}
+
 function mockClient() {
     return {
         databases: {
@@ -100,6 +108,73 @@ function mockClient() {
                 has_more: false,
             }),
         },
+        pages: {
+            retrieve: vi.fn().mockResolvedValue({
+                object: "page",
+                id: "ad9bcf91-3a83-4504-91ba-e2503d90caba",
+                created_time: "2023-06-26T14:05:00.000Z",
+                last_edited_time: "2023-09-23T15:43:00.000Z",
+                created_by: {
+                    object: "user",
+                    id: "cb4decf1-fcbd-45bf-99aa-81d265a1aec7",
+                },
+                properties: {
+                    title: {
+                        id: "title",
+                        type: "title",
+                        title: [
+                            {
+                                type: "text",
+                                text: { content: "One more time", link: null },
+                                plain_text: "One more time",
+                            },
+                        ],
+                    },
+                    slug: {
+                        id: "eaX",
+                        type: "rich_text",
+                        rich_text: [
+                            {
+                                type: "text",
+                                text: { content: "one-more-time", link: null },
+                                plain_text: "one-more-time",
+                            },
+                        ],
+                    },
+                    status: {
+                        id: "EhOD",
+                        type: "status",
+                        status: { id: "Co", name: "published", color: "green" },
+                    },
+                    Tags: {
+                        id: "jNg",
+                        type: "multi_select",
+                        multi_select: [
+                            { id: "a58d", name: "music", color: "orange" },
+                            { id: "b68e", name: "review", color: "blue" },
+                        ],
+                    },
+                    author: {
+                        id: "NOtQ",
+                        type: "created_by",
+                        created_by: {
+                            object: "user",
+                            id: "cb4decf1-fcbd-45bf-99aa-81d265a1aec7",
+                        },
+                    },
+                    created: {
+                        id: "Txnn",
+                        type: "created_time",
+                        created_time: "2023-06-26T14:05:00.000Z",
+                    },
+                    updated: {
+                        id: "kfC",
+                        type: "last_edited_time",
+                        last_edited_time: "2023-09-23T15:43:00.000Z",
+                    },
+                },
+            }),
+        },
     };
 }
 
@@ -145,5 +220,36 @@ describe("The NotionPageRepository", () => {
         expect(pages[0].tags).toHaveLength(2);
         expect(pages[0].tags[0].equals(Tag.create("music"))).toBe(true);
         expect(pages[0].tags[1].equals(Tag.create("review"))).toBe(true);
+    });
+
+    test("getPage returns a mapped StaticPage for an existing page ID", async () => {
+        const client = mockClient();
+        const repo = new NotionPageRepository(
+            client as never,
+            "7431d3ba-b390-4418-ae50-e68277a29263",
+        );
+        const pageId = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
+
+        const page = await repo.getPage(pageId);
+
+        expect(client.pages.retrieve).toHaveBeenCalledWith({
+            page_id: "ad9bcf91-3a83-4504-91ba-e2503d90caba",
+        });
+        expect(page).not.toBeNull();
+        expect(page?.title).toBe("One more time");
+    });
+
+    test("getPage returns null when the page does not exist", async () => {
+        const client = mockClient();
+        client.pages.retrieve = vi.fn().mockRejectedValue(new NotFoundError());
+        const repo = new NotionPageRepository(
+            client as never,
+            "7431d3ba-b390-4418-ae50-e68277a29263",
+        );
+        const pageId = PageId.create("00000000-0000-0000-0000-000000000000");
+
+        const page = await repo.getPage(pageId);
+
+        expect(page).toBeNull();
     });
 });
