@@ -4,8 +4,7 @@ import NotionCMS from "./cms";
 import type { IPageRepository } from "./ports";
 import type { IImageFetcher } from "./ports";
 import { StaticPage, PageId, Slug, PageStatus } from "./domain";
-import type { PageBlock } from "./domain";
-import { PAGE_ID, PAGE_METADATA_AND_CONTENT } from "./helpers.mocks";
+import type { PageBlock, ImageBlock } from "./domain";
 
 describe("The NotionCMS", () => {
     test("accepts repository and image fetcher", () => {
@@ -19,8 +18,12 @@ describe("The NotionCMS", () => {
         };
         const cms = new NotionCMS(repository, imageFetcher);
         expect(cms).toBeInstanceOf(NotionCMS);
-        expect((cms as Record<string, unknown>).repository).toBe(repository);
-        expect((cms as Record<string, unknown>).imageFetcher).toBe(imageFetcher);
+        expect((cms as unknown as Record<string, unknown>).repository).toBe(
+            repository,
+        );
+        expect((cms as unknown as Record<string, unknown>).imageFetcher).toBe(
+            imageFetcher,
+        );
     });
 
     test("retrieves page from repository by id", async () => {
@@ -93,42 +96,52 @@ describe("The NotionCMS", () => {
 
         expect(result).toEqual(blocks);
     });
+
+    test("orchestrates page retrieval with image processing and list grouping", async () => {
+        const id = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
+        const page = StaticPage.create({
+            id,
+            slug: Slug.create("test-page"),
+            status: PageStatus.create("draft"),
+            title: "Test Page",
+        });
+        const pngBuffer = Buffer.from(
+            "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVQIW2P8z8BQz8BQz8BQz8BQzwAAjAMH+WHu5QAAAABJRU5ErkJggg==",
+            "base64",
+        );
+        const blocks: PageBlock[] = [
+            { type: "text", richText: [] } as PageBlock,
+            { type: "image", url: "https://example.com/img.png" } as ImageBlock,
+        ];
+        const repository: IPageRepository = {
+            listPages: () => Promise.resolve([]),
+            getPage: (pageId: PageId) =>
+                Promise.resolve(pageId.equals(id) ? page : null),
+            getPageBlocks: (pageId: PageId) =>
+                Promise.resolve(pageId.equals(id) ? blocks : []),
+        };
+        const imageFetcher: IImageFetcher = {
+            fetch: (url: string) =>
+                url === "https://example.com/img.png"
+                    ? Promise.resolve(pngBuffer)
+                    : Promise.reject(new Error("unexpected URL")),
+        };
+        const cms = new NotionCMS(repository, imageFetcher);
+
+        const result = await cms.getPageWithContent(id);
+
+        expect(result).toBeInstanceOf(StaticPage);
+        expect(result.id.equals(id)).toBe(true);
+        expect(result.content).toHaveLength(2);
+        expect(result.content[0]).toEqual({ type: "text", richText: [] });
+        const imageBlock = result.content[1] as ImageBlock;
+        expect(imageBlock.type).toBe("image");
+        expect(imageBlock.base64).toBe(pngBuffer.toString("base64"));
+        expect(imageBlock.width).toBe(2);
+        expect(imageBlock.height).toBe(2);
+        expect(imageBlock.format).toBe("png");
+    });
 });
 
-test("Get Page metadata", async () => {
-    const dbId = String(process.env.NOTION_DB);
-    const accessToken = String(process.env.NOTION_TOKEN);
-
-    const client = new NotionCMS({ token: accessToken, db: dbId });
-
-    const result = await client.getPage(PAGE_ID);
-
-    expect(result?.id).toBe(PAGE_ID);
-});
-
-test("Get Page content", async () => {
-    const dbId = String(process.env.NOTION_DB);
-    const accessToken = String(process.env.NOTION_TOKEN);
-
-    const client = new NotionCMS({ token: accessToken, db: dbId });
-
-    const result = await client.getPageContent(PAGE_ID);
-
-    expect(Array.isArray(result)).toBe(true);
-    expect(result.length).toBe(PAGE_METADATA_AND_CONTENT.content.length);
-});
-
-test("Get Page metadata with content", async () => {
-    const dbId = String(process.env.NOTION_DB);
-    const accessToken = String(process.env.NOTION_TOKEN);
-
-    const client = new NotionCMS({ token: accessToken, db: dbId });
-
-    const result = await client.getPageWithContent(PAGE_ID);
-
-    expect(result.id).toBe(PAGE_ID);
-    expect(Array.isArray(result.content)).toBe(true);
-    expect(result.content.length).toBe(
-        PAGE_METADATA_AND_CONTENT.content.length,
-    );
-});
+// INTEGRATION TESTS — to be rewritten in task 4.1
+// import { PAGE_ID, PAGE_METADATA_AND_CONTENT } from "./helpers.mocks";
