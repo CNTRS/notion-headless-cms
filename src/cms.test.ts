@@ -200,6 +200,51 @@ describe("The NotionCMS", () => {
         expect(imageBlock.height).toBe(2);
         expect(imageBlock.format).toBe("png");
     });
+
+    test("retrieves page content with images processed and lists grouped", async () => {
+        const id = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
+        const page = StaticPage.create({
+            id,
+            slug: Slug.create("test-page"),
+            status: PageStatus.create("draft"),
+            title: "Test Page",
+        });
+        const pngBuffer = Buffer.from(
+            "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVQIW2P8z8BQz8BQz8BQz8BQzwAAjAMH+WHu5QAAAABJRU5ErkJggg==",
+            "base64",
+        );
+        const blocks: PageBlock[] = [
+            { type: "text", richText: [] } as PageBlock,
+            { type: "image", url: "https://example.com/img.png" } as ImageBlock,
+            { type: "text", richText: [] } as PageBlock,
+        ];
+        const repository: IPageRepository = {
+            listPages: () => Promise.resolve([]),
+            getPage: (pageId: PageId) =>
+                Promise.resolve(pageId.equals(id) ? page : null),
+            getPageBlocks: (pageId: PageId) =>
+                Promise.resolve(pageId.equals(id) ? blocks : []),
+        };
+        const imageFetcher: IImageFetcher = {
+            fetch: (url: string) =>
+                url === "https://example.com/img.png"
+                    ? Promise.resolve(pngBuffer)
+                    : Promise.reject(new Error("unexpected URL")),
+        };
+        const cms = new NotionCMS(repository, imageFetcher);
+
+        const result = await cms.getPageWithContent(id);
+
+        expect(result.content).toHaveLength(3);
+        expect(result.content[0]).toEqual({ type: "text", richText: [] });
+        const imageBlock = result.content[1] as ImageBlock;
+        expect(imageBlock.type).toBe("image");
+        expect(imageBlock.base64).toBe(pngBuffer.toString("base64"));
+        expect(imageBlock.width).toBe(2);
+        expect(imageBlock.height).toBe(2);
+        expect(imageBlock.format).toBe("png");
+        expect(result.content[2]).toEqual({ type: "text", richText: [] });
+    });
 });
 
 // INTEGRATION TESTS — to be rewritten in task 4.1

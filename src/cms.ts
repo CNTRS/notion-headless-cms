@@ -24,9 +24,12 @@ export default class NotionCMS {
             throw new Error(`Page not found: ${id}`);
         }
 
-        let blocks = await this.repository.getPageBlocks(id);
+        const blocks = await this.repository.getPageBlocks(id);
 
-        blocks = await Promise.all(
+        return page.withContent(await this.processBlocks(blocks));
+    }
+    private async processBlocks(blocks: PageBlock[]): Promise<PageBlock[]> {
+        const processed = await Promise.all(
             blocks.map(async block => {
                 if (block.type !== "image") return block;
 
@@ -44,9 +47,7 @@ export default class NotionCMS {
             }),
         );
 
-        blocks = PageBlockTransformer.groupConsecutiveItems(blocks);
-
-        return page.withContent(blocks);
+        return PageBlockTransformer.groupConsecutiveItems(processed);
     }
     async getAllPagesContent(): Promise<StaticPage[]> {
         const pages = await this.listPages();
