@@ -201,6 +201,35 @@ describe("The NotionCMS", () => {
         expect(imageBlock.format).toBe("png");
     });
 
+    test("accepts plain string id and converts to PageId", async () => {
+        const id = "ad9bcf91-3a83-4504-91ba-e2503d90caba";
+        const pageId = PageId.create(id);
+        const page = StaticPage.create({
+            id: pageId,
+            slug: Slug.create("test-page"),
+            status: PageStatus.create("draft"),
+            title: "Test Page",
+        });
+        const blocks: PageBlock[] = [{ type: "text", richText: [] }];
+        const repository: IPageRepository = {
+            listPages: () => Promise.resolve([]),
+            getPage: (pid: PageId) =>
+                Promise.resolve(pid.equals(pageId) ? page : null),
+            getPageBlocks: () => Promise.resolve(blocks),
+        };
+        const imageFetcher: IImageFetcher = {
+            fetch: () => Promise.resolve(Buffer.from("")),
+        };
+        const cms = new NotionCMS(repository, imageFetcher);
+
+        const result = await cms.getPage(id);
+        expect(result).toBeInstanceOf(StaticPage);
+        expect(result?.id.equals(pageId)).toBe(true);
+
+        const content = await cms.getPageContent(id);
+        expect(content).toEqual(blocks);
+    });
+
     test("retrieves page content with images processed and lists grouped", async () => {
         const id = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
         const page = StaticPage.create({

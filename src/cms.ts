@@ -1,7 +1,11 @@
-import type { PageId, StaticPage, PageBlock, ImageBlock } from "./domain";
-import { ImageTransform, PageBlockTransformer } from "./domain";
+import { ImageTransform, PageBlockTransformer, PageId } from "./domain";
+import type { StaticPage, PageBlock, ImageBlock } from "./domain";
 import type { IPageRepository } from "./ports";
 import type { IImageFetcher } from "./ports";
+
+function toPageId(id: PageId | string): PageId {
+    return typeof id === "string" ? PageId.create(id) : id;
+}
 
 export default class NotionCMS {
     constructor(
@@ -11,20 +15,21 @@ export default class NotionCMS {
     async listPages(): Promise<StaticPage[]> {
         return this.repository.listPages();
     }
-    async getPage(id: PageId): Promise<StaticPage | null> {
-        return this.repository.getPage(id);
+    async getPage(id: PageId | string): Promise<StaticPage | null> {
+        return this.repository.getPage(toPageId(id));
     }
-    async getPageContent(id: PageId): Promise<PageBlock[]> {
-        return this.repository.getPageBlocks(id);
+    async getPageContent(id: PageId | string): Promise<PageBlock[]> {
+        return this.repository.getPageBlocks(toPageId(id));
     }
-    async getPageWithContent(id: PageId): Promise<StaticPage> {
-        const page = await this.repository.getPage(id);
+    async getPageWithContent(id: PageId | string): Promise<StaticPage> {
+        const pageId = toPageId(id);
+        const page = await this.repository.getPage(pageId);
 
         if (!page) {
             throw new Error(`Page not found: ${id}`);
         }
 
-        const blocks = await this.repository.getPageBlocks(id);
+        const blocks = await this.repository.getPageBlocks(pageId);
 
         return page.withContent(await this.processBlocks(blocks));
     }
