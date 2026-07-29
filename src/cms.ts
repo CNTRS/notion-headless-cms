@@ -1,3 +1,4 @@
+import type { StaticPage } from "./domain";
 import type { IPageRepository } from "./ports";
 import type { IImageFetcher } from "./ports";
 
@@ -6,11 +7,8 @@ export default class NotionCMS {
         private readonly repository: IPageRepository,
         private readonly imageFetcher: IImageFetcher,
     ) {}
-    async listPages(): Promise<Array<TNotionPage>> {
-        const result = await this.client.databases.query({
-            database_id: this.db,
-        });
-        return result.results;
+    async listPages(): Promise<StaticPage[]> {
+        return this.repository.listPages();
     }
     async getPage(id: string): Promise<TNotionPage> {
         return await this.client.pages.retrieve({ page_id: id });

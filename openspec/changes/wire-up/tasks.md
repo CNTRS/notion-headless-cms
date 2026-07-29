@@ -1,7 +1,7 @@
 ## 1. Refactor NotionCMS
 
 - [x] 1.1 Change constructor to receive `IPageRepository` and `IImageFetcher`
-- [ ] 1.2 Update `listPages()` to delegate to `repository.listPages()` returning `StaticPage[]`
+- [x] 1.2 Update `listPages()` to delegate to `repository.listPages()` returning `StaticPage[]`
 - [ ] 1.3 Update `getPage()` to delegate to `repository.getPage()` returning `StaticPage | null`
 - [ ] 1.4 Update `getPageContent()` to delegate to `repository.getPageBlocks()` returning `PageBlock[]`
 - [ ] 1.5 Implement `getPageWithContent()` orchestration: page + blocks + image processing + list grouping
