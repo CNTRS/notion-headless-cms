@@ -7,7 +7,7 @@
 - [x] 1.5 Implement `getPageWithContent()` orchestration: page + blocks + image processing + list grouping
 - [x] 1.6 Implement `getAllPagesContent()` orchestration: iterate pages, process each
 - [x] 1.7 Extract private `processBlocks(blocks: PageBlock[]): Promise<PageBlock[]>` helper for image download + transform + grouping
-- [ ] 1.8 Remove `INotionCMS` interface
+- [x] 1.8 Remove `INotionCMS` interface
 - [ ] 1.9 Remove `TNotionCMSOptions` and related unused types (`TTimestampPropertyConfig`, `TSlugPropertyConfig`, `TStatusPropertyConfig`)
 - [ ] 1.10 Remove `TNotionPage` and `TNotionEntryId` types
 
