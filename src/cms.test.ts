@@ -247,5 +247,4 @@ describe("The NotionCMS", () => {
     });
 });
 
-// INTEGRATION TESTS — to be rewritten in task 4.1
-// import { PAGE_ID, PAGE_METADATA_AND_CONTENT } from "./helpers.mocks";
+

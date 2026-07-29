@@ -24,8 +24,8 @@
 
 ## 4. Update tests
 
-- [ ] 4.1 Update `src/cms.test.ts` to use new constructor signature
-- [ ] 4.2 Update all test references to removed types
+- [x] 4.1 Update `src/cms.test.ts` to use new constructor signature
+- [x] 4.2 Update all test references to removed types
 
 ## 5. Update example
 
