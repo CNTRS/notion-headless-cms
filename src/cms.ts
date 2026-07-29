@@ -49,13 +49,8 @@ export default class NotionCMS {
         return page.withContent(blocks);
     }
     async getAllPagesContent(): Promise<StaticPage[]> {
-        const result: StaticPage[] = [];
         const pages = await this.listPages();
 
-        for (const page of pages) {
-            const pageContent = await this.getPageContent(page.id);
-            result.push(page.withContent(pageContent));
-        }
-        return result;
+        return Promise.all(pages.map(page => this.getPageWithContent(page.id)));
     }
 }
