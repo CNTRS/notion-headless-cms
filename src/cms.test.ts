@@ -49,6 +49,20 @@ describe("The NotionCMS", () => {
         expect(result?.id.equals(id)).toBe(true);
     });
 
+    test("ignores missing page", async () => {
+        const id = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
+        const repository = new FakePageRepository({
+            pages: [],
+            blocks: new Map(),
+        });
+        const imageFetcher = new FakeImageFetcher(Buffer.from(""));
+        const cms = new NotionCMS(repository, imageFetcher);
+
+        const result = await cms.getPage(id);
+
+        expect(result).toBeNull();
+    });
+
     test("lists pages from repository", async () => {
         const page = StaticPage.create({
             id: PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba"),
