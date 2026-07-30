@@ -11,7 +11,7 @@
 - [x] 2.4 Test: `getPageContent()` returns blocks from fake
 - [x] 2.5 Test: `getPageWithContent()` processes images — verifies base64, width, height, format
 - [x] 2.6 Test: `getPageWithContent()` groups consecutive list items
-- [ ] 2.7 Test: `getAllPagesContent()` processes all pages
+- [x] 2.7 Test: `getAllPagesContent()` processes all pages
 
 ## 3. Smoke test (optional)
 
