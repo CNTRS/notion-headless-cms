@@ -70,6 +70,35 @@ describe("The NotionCMS", () => {
         expect(pages[0].id.equals(page.id)).toBe(true);
     });
 
+    test("lists seeded pages", async () => {
+        const id1 = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
+        const id2 = PageId.create("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e6");
+        const page1 = StaticPage.create({
+            id: id1,
+            slug: Slug.create("page-one"),
+            status: PageStatus.create("draft"),
+            title: "Page One",
+        });
+        const page2 = StaticPage.create({
+            id: id2,
+            slug: Slug.create("page-two"),
+            status: PageStatus.create("published"),
+            title: "Page Two",
+        });
+        const repository = new FakePageRepository({
+            pages: [page1, page2],
+            blocks: new Map(),
+        });
+        const imageFetcher = new FakeImageFetcher(Buffer.from(""));
+        const cms = new NotionCMS(repository, imageFetcher);
+
+        const pages = await cms.listPages();
+
+        expect(pages).toHaveLength(2);
+        expect(pages[0].id.equals(id1)).toBe(true);
+        expect(pages[1].id.equals(id2)).toBe(true);
+    });
+
     test("retrieves page content from repository by id", async () => {
         const id = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
         const blocks: PageBlock[] = [
