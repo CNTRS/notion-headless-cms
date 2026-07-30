@@ -20,6 +20,6 @@
 
 ## 4. Verification
 
-- [ ] 4.1 Run `pnpm test` — all tests pass without `.env`
-- [ ] 4.2 Run `pnpm lint` — no errors
-- [ ] 4.3 Run `pnpm build` — compilation succeeds
+- [x] 4.1 Run `pnpm test` — all tests pass without `.env`
+- [x] 4.2 Run `pnpm lint` — no errors
+- [x] 4.3 Run `pnpm build` — compilation succeeds
