@@ -5,7 +5,7 @@
 
 ## 2. Rewrite cms.test.ts
 
-- [ ] 2.1 Rewrite `cms.test.ts` to use `FakePageRepository` and `FakeImageFetcher`
+- [x] 2.1 Rewrite `cms.test.ts` to use `FakePageRepository` and `FakeImageFetcher`
 - [ ] 2.2 Test: `listPages()` returns seeded pages
 - [ ] 2.3 Test: `getPage()` returns page or null
 - [ ] 2.4 Test: `getPageContent()` returns blocks from fake

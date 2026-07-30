@@ -1,22 +1,24 @@
 import { describe, test, expect } from "vitest";
-import "dotenv/config";
 import NotionCMS from "./cms";
-import type { IPageRepository } from "./ports";
-import type { IImageFetcher } from "./ports";
 import { StaticPage, PageId, Slug, PageStatus } from "./domain";
 import type { PageBlock, ImageBlock } from "./domain";
+import { FakePageRepository } from "./test/fakes/FakePageRepository";
+import { FakeImageFetcher } from "./test/fakes/FakeImageFetcher";
+
+const VALID_PNG = Buffer.from(
+    "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVQIW2P8z8BQz8BQz8BQz8BQzwAAjAMH+WHu5QAAAABJRU5ErkJggg==",
+    "base64",
+);
 
 describe("The NotionCMS", () => {
     test("accepts repository and image fetcher", () => {
-        const repository: IPageRepository = {
-            listPages: () => Promise.resolve([]),
-            getPage: () => Promise.resolve(null),
-            getPageBlocks: () => Promise.resolve([]),
-        };
-        const imageFetcher: IImageFetcher = {
-            fetch: () => Promise.resolve(Buffer.from("")),
-        };
+        const repository = new FakePageRepository({
+            pages: [],
+            blocks: new Map(),
+        });
+        const imageFetcher = new FakeImageFetcher(Buffer.from(""));
         const cms = new NotionCMS(repository, imageFetcher);
+
         expect(cms).toBeInstanceOf(NotionCMS);
         expect((cms as unknown as Record<string, unknown>).repository).toBe(
             repository,
@@ -34,15 +36,11 @@ describe("The NotionCMS", () => {
             status: PageStatus.create("draft"),
             title: "Test Page",
         });
-        const repository: IPageRepository = {
-            listPages: () => Promise.resolve([]),
-            getPage: (pageId: PageId) =>
-                Promise.resolve(pageId.equals(id) ? page : null),
-            getPageBlocks: () => Promise.resolve([]),
-        };
-        const imageFetcher: IImageFetcher = {
-            fetch: () => Promise.resolve(Buffer.from("")),
-        };
+        const repository = new FakePageRepository({
+            pages: [page],
+            blocks: new Map(),
+        });
+        const imageFetcher = new FakeImageFetcher(Buffer.from(""));
         const cms = new NotionCMS(repository, imageFetcher);
 
         const result = await cms.getPage(id);
@@ -58,14 +56,11 @@ describe("The NotionCMS", () => {
             status: PageStatus.create("draft"),
             title: "Test Page",
         });
-        const repository: IPageRepository = {
-            listPages: () => Promise.resolve([page]),
-            getPage: () => Promise.resolve(null),
-            getPageBlocks: () => Promise.resolve([]),
-        };
-        const imageFetcher: IImageFetcher = {
-            fetch: () => Promise.resolve(Buffer.from("")),
-        };
+        const repository = new FakePageRepository({
+            pages: [page],
+            blocks: new Map(),
+        });
+        const imageFetcher = new FakeImageFetcher(Buffer.from(""));
         const cms = new NotionCMS(repository, imageFetcher);
 
         const pages = await cms.listPages();
@@ -78,18 +73,14 @@ describe("The NotionCMS", () => {
     test("retrieves page content from repository by id", async () => {
         const id = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
         const blocks: PageBlock[] = [
-            { type: "text", richText: [] },
-            { type: "image", url: "https://example.com/img.png" },
+            { type: "text", richText: [] } as PageBlock,
+            { type: "image", url: "https://example.com/img.png" } as ImageBlock,
         ];
-        const repository: IPageRepository = {
-            listPages: () => Promise.resolve([]),
-            getPage: () => Promise.resolve(null),
-            getPageBlocks: (pageId: PageId) =>
-                Promise.resolve(pageId.equals(id) ? blocks : []),
-        };
-        const imageFetcher: IImageFetcher = {
-            fetch: () => Promise.resolve(Buffer.from("")),
-        };
+        const repository = new FakePageRepository({
+            pages: [],
+            blocks: new Map([[id.toString(), blocks]]),
+        });
+        const imageFetcher = new FakeImageFetcher(Buffer.from(""));
         const cms = new NotionCMS(repository, imageFetcher);
 
         const result = await cms.getPageContent(id);
@@ -112,10 +103,6 @@ describe("The NotionCMS", () => {
             status: PageStatus.create("published"),
             title: "Page Two",
         });
-        const pngBuffer = Buffer.from(
-            "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVQIW2P8z8BQz8BQz8BQz8BQzwAAjAMH+WHu5QAAAABJRU5ErkJggg==",
-            "base64",
-        );
         const blocks1: PageBlock[] = [
             { type: "text", richText: [] } as PageBlock,
             {
@@ -126,19 +113,14 @@ describe("The NotionCMS", () => {
         const blocks2: PageBlock[] = [
             { type: "text", richText: [] } as PageBlock,
         ];
-        const repository: IPageRepository = {
-            listPages: () => Promise.resolve([page1, page2]),
-            getPage: (pageId: PageId) =>
-                Promise.resolve(pageId.equals(id1) ? page1 : page2),
-            getPageBlocks: (pageId: PageId) =>
-                Promise.resolve(pageId.equals(id1) ? blocks1 : blocks2),
-        };
-        const imageFetcher: IImageFetcher = {
-            fetch: (url: string) =>
-                url === "https://example.com/img1.png"
-                    ? Promise.resolve(pngBuffer)
-                    : Promise.reject(new Error("unexpected URL")),
-        };
+        const repository = new FakePageRepository({
+            pages: [page1, page2],
+            blocks: new Map([
+                [id1.toString(), blocks1],
+                [id2.toString(), blocks2],
+            ]),
+        });
+        const imageFetcher = new FakeImageFetcher(VALID_PNG);
         const cms = new NotionCMS(repository, imageFetcher);
 
         const result = await cms.getAllPagesContent();
@@ -148,7 +130,7 @@ describe("The NotionCMS", () => {
         expect(result[0].content).toHaveLength(2);
         const imageBlock = result[0].content[1] as ImageBlock;
         expect(imageBlock.type).toBe("image");
-        expect(imageBlock.base64).toBe(pngBuffer.toString("base64"));
+        expect(imageBlock.base64).toBe(VALID_PNG.toString("base64"));
         expect(imageBlock.width).toBe(2);
         expect(imageBlock.height).toBe(2);
         expect(imageBlock.format).toBe("png");
@@ -164,27 +146,15 @@ describe("The NotionCMS", () => {
             status: PageStatus.create("draft"),
             title: "Test Page",
         });
-        const pngBuffer = Buffer.from(
-            "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVQIW2P8z8BQz8BQz8BQz8BQzwAAjAMH+WHu5QAAAABJRU5ErkJggg==",
-            "base64",
-        );
         const blocks: PageBlock[] = [
             { type: "text", richText: [] } as PageBlock,
             { type: "image", url: "https://example.com/img.png" } as ImageBlock,
         ];
-        const repository: IPageRepository = {
-            listPages: () => Promise.resolve([]),
-            getPage: (pageId: PageId) =>
-                Promise.resolve(pageId.equals(id) ? page : null),
-            getPageBlocks: (pageId: PageId) =>
-                Promise.resolve(pageId.equals(id) ? blocks : []),
-        };
-        const imageFetcher: IImageFetcher = {
-            fetch: (url: string) =>
-                url === "https://example.com/img.png"
-                    ? Promise.resolve(pngBuffer)
-                    : Promise.reject(new Error("unexpected URL")),
-        };
+        const repository = new FakePageRepository({
+            pages: [page],
+            blocks: new Map([[id.toString(), blocks]]),
+        });
+        const imageFetcher = new FakeImageFetcher(VALID_PNG);
         const cms = new NotionCMS(repository, imageFetcher);
 
         const result = await cms.getPageWithContent(id);
@@ -195,15 +165,15 @@ describe("The NotionCMS", () => {
         expect(result.content[0]).toEqual({ type: "text", richText: [] });
         const imageBlock = result.content[1] as ImageBlock;
         expect(imageBlock.type).toBe("image");
-        expect(imageBlock.base64).toBe(pngBuffer.toString("base64"));
+        expect(imageBlock.base64).toBe(VALID_PNG.toString("base64"));
         expect(imageBlock.width).toBe(2);
         expect(imageBlock.height).toBe(2);
         expect(imageBlock.format).toBe("png");
     });
 
     test("accepts plain string id and converts to PageId", async () => {
-        const id = "ad9bcf91-3a83-4504-91ba-e2503d90caba";
-        const pageId = PageId.create(id);
+        const idStr = "ad9bcf91-3a83-4504-91ba-e2503d90caba";
+        const pageId = PageId.create(idStr);
         const page = StaticPage.create({
             id: pageId,
             slug: Slug.create("test-page"),
@@ -211,22 +181,18 @@ describe("The NotionCMS", () => {
             title: "Test Page",
         });
         const blocks: PageBlock[] = [{ type: "text", richText: [] }];
-        const repository: IPageRepository = {
-            listPages: () => Promise.resolve([]),
-            getPage: (pid: PageId) =>
-                Promise.resolve(pid.equals(pageId) ? page : null),
-            getPageBlocks: () => Promise.resolve(blocks),
-        };
-        const imageFetcher: IImageFetcher = {
-            fetch: () => Promise.resolve(Buffer.from("")),
-        };
+        const repository = new FakePageRepository({
+            pages: [page],
+            blocks: new Map([[pageId.toString(), blocks]]),
+        });
+        const imageFetcher = new FakeImageFetcher(Buffer.from(""));
         const cms = new NotionCMS(repository, imageFetcher);
 
-        const result = await cms.getPage(id);
+        const result = await cms.getPage(idStr);
         expect(result).toBeInstanceOf(StaticPage);
         expect(result?.id.equals(pageId)).toBe(true);
 
-        const content = await cms.getPageContent(id);
+        const content = await cms.getPageContent(idStr);
         expect(content).toEqual(blocks);
     });
 
@@ -238,28 +204,16 @@ describe("The NotionCMS", () => {
             status: PageStatus.create("draft"),
             title: "Test Page",
         });
-        const pngBuffer = Buffer.from(
-            "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVQIW2P8z8BQz8BQz8BQz8BQzwAAjAMH+WHu5QAAAABJRU5ErkJggg==",
-            "base64",
-        );
         const blocks: PageBlock[] = [
             { type: "text", richText: [] } as PageBlock,
             { type: "image", url: "https://example.com/img.png" } as ImageBlock,
             { type: "text", richText: [] } as PageBlock,
         ];
-        const repository: IPageRepository = {
-            listPages: () => Promise.resolve([]),
-            getPage: (pageId: PageId) =>
-                Promise.resolve(pageId.equals(id) ? page : null),
-            getPageBlocks: (pageId: PageId) =>
-                Promise.resolve(pageId.equals(id) ? blocks : []),
-        };
-        const imageFetcher: IImageFetcher = {
-            fetch: (url: string) =>
-                url === "https://example.com/img.png"
-                    ? Promise.resolve(pngBuffer)
-                    : Promise.reject(new Error("unexpected URL")),
-        };
+        const repository = new FakePageRepository({
+            pages: [page],
+            blocks: new Map([[id.toString(), blocks]]),
+        });
+        const imageFetcher = new FakeImageFetcher(VALID_PNG);
         const cms = new NotionCMS(repository, imageFetcher);
 
         const result = await cms.getPageWithContent(id);
@@ -268,7 +222,7 @@ describe("The NotionCMS", () => {
         expect(result.content[0]).toEqual({ type: "text", richText: [] });
         const imageBlock = result.content[1] as ImageBlock;
         expect(imageBlock.type).toBe("image");
-        expect(imageBlock.base64).toBe(pngBuffer.toString("base64"));
+        expect(imageBlock.base64).toBe(VALID_PNG.toString("base64"));
         expect(imageBlock.width).toBe(2);
         expect(imageBlock.height).toBe(2);
         expect(imageBlock.format).toBe("png");
