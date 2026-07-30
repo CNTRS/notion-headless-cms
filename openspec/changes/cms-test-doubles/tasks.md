@@ -8,7 +8,7 @@
 - [x] 2.1 Rewrite `cms.test.ts` to use `FakePageRepository` and `FakeImageFetcher`
 - [x] 2.2 Test: `listPages()` returns seeded pages
 - [x] 2.3 Test: `getPage()` returns page or null
-- [ ] 2.4 Test: `getPageContent()` returns blocks from fake
+- [x] 2.4 Test: `getPageContent()` returns blocks from fake
 - [ ] 2.5 Test: `getPageWithContent()` processes images — verifies base64, width, height, format
 - [ ] 2.6 Test: `getPageWithContent()` groups consecutive list items
 - [ ] 2.7 Test: `getAllPagesContent()` processes all pages
