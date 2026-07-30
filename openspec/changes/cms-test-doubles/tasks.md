@@ -16,7 +16,7 @@
 ## 3. Smoke test (optional)
 
 - [x] 3.1 Create `src/cms.smoke.test.ts` — exercises real Notion API, marked `test.skip`
-- [ ] 3.2 Verify smoke runs manually with `.env`
+- [x] 3.2 Verify smoke runs manually with `.env`
 
 ## 4. Verification
 
