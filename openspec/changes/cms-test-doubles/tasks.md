@@ -1,7 +1,7 @@
 ## 1. Fake implementations
 
 - [x] 1.1 Create `FakePageRepository` with in-memory `Map` storage, seeded via constructor
-- [ ] 1.2 Create `FakeImageFetcher` returning a small valid JPEG buffer for any URL
+- [x] 1.2 Create `FakeImageFetcher` returning a small valid JPEG buffer for any URL
 
 ## 2. Rewrite cms.test.ts
 
