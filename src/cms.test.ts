@@ -271,4 +271,68 @@ describe("The NotionCMS", () => {
         expect(imageBlock.format).toBe("png");
         expect(result.content[2]).toEqual({ type: "text", richText: [] });
     });
+
+    test("groups consecutive bulleted list items into a single list", async () => {
+        const id = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
+        const page = StaticPage.create({
+            id,
+            slug: Slug.create("test-page"),
+            status: PageStatus.create("draft"),
+            title: "Test Page",
+        });
+        const blocks: PageBlock[] = [
+            { type: "bulleted_list_item", richText: [] },
+            { type: "bulleted_list_item", richText: [] },
+            { type: "image", url: "https://example.com/img.png" } as ImageBlock,
+        ];
+        const repository = new FakePageRepository({
+            pages: [page],
+            blocks: new Map([[id.toString(), blocks]]),
+        });
+        const imageFetcher = new FakeImageFetcher(VALID_PNG);
+        const cms = new NotionCMS(repository, imageFetcher);
+
+        const result = await cms.getPageWithContent(id);
+
+        expect(result.content).toHaveLength(2);
+        expect(result.content[0]).toEqual({
+            type: "bulleted_list",
+            items: [{ richText: [] }, { richText: [] }],
+        });
+        const imageBlock = result.content[1] as ImageBlock;
+        expect(imageBlock.type).toBe("image");
+        expect(imageBlock.base64).toBe(VALID_PNG.toString("base64"));
+        expect(imageBlock.width).toBe(2);
+        expect(imageBlock.height).toBe(2);
+        expect(imageBlock.format).toBe("png");
+    });
+
+    test("groups consecutive numbered list items into a single list", async () => {
+        const id = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
+        const page = StaticPage.create({
+            id,
+            slug: Slug.create("test-page"),
+            status: PageStatus.create("draft"),
+            title: "Test Page",
+        });
+        const blocks: PageBlock[] = [
+            { type: "numbered_list_item", richText: [] },
+            { type: "numbered_list_item", richText: [] },
+            { type: "numbered_list_item", richText: [] },
+        ];
+        const repository = new FakePageRepository({
+            pages: [page],
+            blocks: new Map([[id.toString(), blocks]]),
+        });
+        const imageFetcher = new FakeImageFetcher(VALID_PNG);
+        const cms = new NotionCMS(repository, imageFetcher);
+
+        const result = await cms.getPageWithContent(id);
+
+        expect(result.content).toHaveLength(1);
+        expect(result.content[0]).toEqual({
+            type: "numbered_list",
+            items: [{ richText: [] }, { richText: [] }, { richText: [] }],
+        });
+    });
 });
