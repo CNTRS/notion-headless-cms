@@ -2,8 +2,14 @@ import { StaticPage } from "../../StaticPage";
 import { PageId } from "../../PageId";
 import { Slug } from "../../Slug";
 import { PageStatus } from "../../PageStatus";
+import { RichText } from "../../RichText";
 import type { Tag } from "../../Tag";
 import type { PageBlock } from "../../blocks";
+
+const DEFAULT_CONTENT: PageBlock[] = [
+    { type: "heading_1", richText: [RichText.create({ content: "Hello" })] },
+    { type: "text", richText: [RichText.create({ content: "World" })] },
+];
 
 export class StaticPageBuilder {
     private id: string | undefined;
@@ -58,6 +64,11 @@ export class StaticPageBuilder {
 
     withContent(value: PageBlock[]): this {
         this.content = value;
+        return this;
+    }
+
+    withDefaultContent(): this {
+        this.content = DEFAULT_CONTENT;
         return this;
     }
 

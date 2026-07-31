@@ -26,6 +26,29 @@ describe("The StaticPageBuilder", () => {
         });
     });
 
+    describe("withDefaultContent", () => {
+        test("builds a page with representative content blocks", () => {
+            const page = new StaticPageBuilder().withDefaultContent().build();
+
+            expect(page.content.length).toBeGreaterThan(0);
+            expect(page.content.some(block => block.type === "heading_1")).toBe(
+                true,
+            );
+            expect(page.content.some(block => block.type === "text")).toBe(
+                true,
+            );
+        });
+
+        test("still respects explicit content overrides", () => {
+            const page = new StaticPageBuilder()
+                .withDefaultContent()
+                .withContent([{ type: "divider" }])
+                .build();
+
+            expect(page.content).toEqual([{ type: "divider" }]);
+        });
+    });
+
     describe("with-field methods", () => {
         test("applies all builder overrides to the built page", () => {
             const page = new StaticPageBuilder()
