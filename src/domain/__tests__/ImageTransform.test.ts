@@ -12,28 +12,30 @@ describe("The ImageTransform", () => {
         "base64",
     );
 
-    test("processes a PNG buffer returning base64, dimensions and format", () => {
-        const result = ImageTransform.process(pngBuffer);
+    describe("process", () => {
+        test("processes a PNG buffer returning base64, dimensions and format", () => {
+            const result = ImageTransform.process(pngBuffer);
 
-        expect(result.base64).toBe(pngBuffer.toString("base64"));
-        expect(result.width).toBe(2);
-        expect(result.height).toBe(2);
-        expect(result.format).toBe("png");
-    });
+            expect(result.base64).toBe(pngBuffer.toString("base64"));
+            expect(result.width).toBe(2);
+            expect(result.height).toBe(2);
+            expect(result.format).toBe("png");
+        });
 
-    test("processes a JPEG buffer returning correct dimensions and format", () => {
-        const result = ImageTransform.process(jpegBuffer);
+        test("processes a JPEG buffer returning correct dimensions and format", () => {
+            const result = ImageTransform.process(jpegBuffer);
 
-        expect(result.base64).toBe(jpegBuffer.toString("base64"));
-        expect(result.width).toBe(1);
-        expect(result.height).toBe(1);
-        expect(result.format).toBe("jpg");
-    });
+            expect(result.base64).toBe(jpegBuffer.toString("base64"));
+            expect(result.width).toBe(1);
+            expect(result.height).toBe(1);
+            expect(result.format).toBe("jpg");
+        });
 
-    test("extracts base64 encoding of the buffer", () => {
-        const result = ImageTransform.process(pngBuffer);
+        test("extracts base64 encoding of the buffer", () => {
+            const result = ImageTransform.process(pngBuffer);
 
-        expect(result.base64).toEqual(expect.any(String));
-        expect(result.base64.length).toBeGreaterThan(0);
+            expect(result.base64).toEqual(expect.any(String));
+            expect(result.base64.length).toBeGreaterThan(0);
+        });
     });
 });

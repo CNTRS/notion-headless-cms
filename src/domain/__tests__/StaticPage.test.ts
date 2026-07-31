@@ -13,132 +13,150 @@ describe("The StaticPage", () => {
     const slug = Slug.create("my-page");
     const status = PageStatus.create("draft");
 
-    test("creates a page with minimum fields", () => {
-        const page = StaticPage.create({
-            id: pageId,
-            slug,
-            status,
-            title: "My Page",
-        });
-
-        expect(page).toBeInstanceOf(StaticPage);
-    });
-
-    test("creates a page with all fields", () => {
-        const tags = [Tag.create("news")];
-        const createdAt = new Date("2025-01-01");
-        const updatedAt = new Date("2025-06-01");
-
-        const page = StaticPage.create({
-            id: pageId,
-            slug,
-            status,
-            title: "My Page",
-            tags,
-            author: "Alice",
-            createdAt,
-            updatedAt,
-            content: [],
-        });
-
-        expect(page.title).toBe("My Page");
-        expect(page.tags).toHaveLength(1);
-        expect(page.author).toBe("Alice");
-        expect(page.createdAt).toEqual(createdAt);
-        expect(page.updatedAt).toEqual(updatedAt);
-        expect(page.content).toEqual([]);
-    });
-
-    test("rejects creation when id is missing", () => {
-        expect(() =>
-            StaticPage.create({
-                id: undefined as unknown as PageId,
-                slug,
-                status,
-                title: "My Page",
-            }),
-        ).toThrow(InvalidStaticPageError);
-    });
-
-    test("rejects creation when slug is missing", () => {
-        expect(() =>
-            StaticPage.create({
-                id: pageId,
-                slug: undefined as unknown as Slug,
-                status,
-                title: "My Page",
-            }),
-        ).toThrow(InvalidStaticPageError);
-    });
-
-    test("rejects creation when status is missing", () => {
-        expect(() =>
-            StaticPage.create({
-                id: pageId,
-                slug,
-                status: undefined as unknown as PageStatus,
-                title: "My Page",
-            }),
-        ).toThrow(InvalidStaticPageError);
-    });
-
-    test("rejects creation when title is missing", () => {
-        expect(() =>
-            StaticPage.create({
+    describe("create", () => {
+        test("creates a page with minimum fields", () => {
+            const page = StaticPage.create({
                 id: pageId,
                 slug,
                 status,
-                title: "",
-            }),
-        ).toThrow(InvalidStaticPageError);
-    });
+                title: "My Page",
+            });
 
-    test("returns a new instance with updated content via withContent", () => {
-        const page = StaticPage.create({
-            id: pageId,
-            slug,
-            status,
-            title: "Original",
+            expect(page).toBeInstanceOf(StaticPage);
         });
-        const richText = RichText.create({ content: "hello" });
-        const blocks: PageBlock[] = [{ type: "text", richText: [richText] }];
 
-        const updated = page.withContent(blocks);
+        test("creates a page with all fields", () => {
+            const tags = [Tag.create("news")];
+            const createdAt = new Date("2025-01-01");
+            const updatedAt = new Date("2025-06-01");
 
-        expect(updated).toBeInstanceOf(StaticPage);
-        expect(updated.content).toEqual(blocks);
-        expect(updated.title).toBe("Original");
-        expect(updated.id.equals(pageId)).toBe(true);
-    });
+            const page = StaticPage.create({
+                id: pageId,
+                slug,
+                status,
+                title: "My Page",
+                tags,
+                author: "Alice",
+                createdAt,
+                updatedAt,
+                content: [],
+            });
 
-    test("does not mutate the original page when calling withContent", () => {
-        const page = StaticPage.create({
-            id: pageId,
-            slug,
-            status,
-            title: "Original",
+            expect(page.title).toBe("My Page");
+            expect(page.tags).toHaveLength(1);
+            expect(page.author).toBe("Alice");
+            expect(page.createdAt).toEqual(createdAt);
+            expect(page.updatedAt).toEqual(updatedAt);
+            expect(page.content).toEqual([]);
         });
-        const blocks: PageBlock[] = [{ type: "divider" }];
 
-        page.withContent(blocks);
+        test("rejects creation when id is missing", () => {
+            expect(() =>
+                StaticPage.create({
+                    id: undefined as unknown as PageId,
+                    slug,
+                    status,
+                    title: "My Page",
+                }),
+            ).toThrow(InvalidStaticPageError);
+        });
 
-        expect(page.content).toEqual([]);
+        test("rejects creation when slug is missing", () => {
+            expect(() =>
+                StaticPage.create({
+                    id: pageId,
+                    slug: undefined as unknown as Slug,
+                    status,
+                    title: "My Page",
+                }),
+            ).toThrow(InvalidStaticPageError);
+        });
+
+        test("rejects creation when status is missing", () => {
+            expect(() =>
+                StaticPage.create({
+                    id: pageId,
+                    slug,
+                    status: undefined as unknown as PageStatus,
+                    title: "My Page",
+                }),
+            ).toThrow(InvalidStaticPageError);
+        });
+
+        test("rejects creation when title is missing", () => {
+            expect(() =>
+                StaticPage.create({
+                    id: pageId,
+                    slug,
+                    status,
+                    title: "",
+                }),
+            ).toThrow(InvalidStaticPageError);
+        });
     });
 
-    test("equals returns true when two pages share the same PageId", () => {
-        const id = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
-        const a = StaticPage.create({ id, slug, status, title: "Page A" });
-        const b = StaticPage.create({ id, slug, status, title: "Page B" });
+    describe("withContent", () => {
+        test("returns a new instance with updated content", () => {
+            const page = StaticPage.create({
+                id: pageId,
+                slug,
+                status,
+                title: "Original",
+            });
+            const richText = RichText.create({ content: "hello" });
+            const blocks: PageBlock[] = [
+                { type: "text", richText: [richText] },
+            ];
 
-        expect(a.equals(b)).toBe(true);
+            const updated = page.withContent(blocks);
+
+            expect(updated).toBeInstanceOf(StaticPage);
+            expect(updated.content).toEqual(blocks);
+            expect(updated.title).toBe("Original");
+            expect(updated.id.equals(pageId)).toBe(true);
+        });
+
+        test("does not mutate the original page", () => {
+            const page = StaticPage.create({
+                id: pageId,
+                slug,
+                status,
+                title: "Original",
+            });
+            const blocks: PageBlock[] = [{ type: "divider" }];
+
+            page.withContent(blocks);
+
+            expect(page.content).toEqual([]);
+        });
     });
 
-    test("equals returns false when two pages have different PageIds", () => {
-        const idA = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
-        const idB = PageId.create("7c0c0c0c-0c0c-0c0c-0c0c-0c0c0c0c0c0c");
-        const a = StaticPage.create({ id: idA, slug, status, title: "Page A" });
-        const b = StaticPage.create({ id: idB, slug, status, title: "Page B" });
+    describe("equals", () => {
+        test("compares two pages sharing the same PageId", () => {
+            const id = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
+            const a = StaticPage.create({ id, slug, status, title: "Page A" });
+            const b = StaticPage.create({ id, slug, status, title: "Page B" });
 
-        expect(a.equals(b)).toBe(false);
+            expect(a.equals(b)).toBe(true);
+        });
+
+        test("compares two pages with different PageIds", () => {
+            const idA = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
+            const idB = PageId.create("7c0c0c0c-0c0c-0c0c-0c0c-0c0c0c0c0c0c");
+            const a = StaticPage.create({
+                id: idA,
+                slug,
+                status,
+                title: "Page A",
+            });
+            const b = StaticPage.create({
+                id: idB,
+                slug,
+                status,
+                title: "Page B",
+            });
+
+            expect(a.equals(b)).toBe(false);
+        });
     });
 });

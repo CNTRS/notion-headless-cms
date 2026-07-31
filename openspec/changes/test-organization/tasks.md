@@ -5,7 +5,7 @@
 
 ## 2. Reorganize domain tests
 
-- [ ] 2.1 Add nested `describe("EntityName")` / `describe("methodName")` in all domain test files
+- [x] 2.1 Add nested `describe("EntityName")` / `describe("methodName")` in all domain test files
 - [ ] 2.2 Ensure test names describe the expected outcome
 
 ## 3. Property-based tests
