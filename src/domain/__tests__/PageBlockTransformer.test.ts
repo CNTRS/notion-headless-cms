@@ -181,5 +181,29 @@ describe("The PageBlockTransformer", () => {
                 { numRuns: 100 },
             );
         });
+
+        test("leaves no orphaned consecutive list items in any generated block array", () => {
+            fc.assert(
+                fc.property(fc.array(blockArbitrary), blocks => {
+                    const result =
+                        PageBlockTransformer.groupConsecutiveItems(blocks);
+
+                    for (let i = 0; i < result.length - 1; i++) {
+                        const current = result[i];
+                        const next = result[i + 1];
+
+                        const bothBulleted =
+                            current.type === "bulleted_list_item" &&
+                            next.type === "bulleted_list_item";
+                        const bothNumbered =
+                            current.type === "numbered_list_item" &&
+                            next.type === "numbered_list_item";
+
+                        expect(bothBulleted || bothNumbered).toBe(false);
+                    }
+                }),
+                { numRuns: 100 },
+            );
+        });
     });
 });
