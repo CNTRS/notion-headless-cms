@@ -1,6 +1,6 @@
 ## 1. Vitest workspace config
 
-- [ ] 1.1 Create `vitest.workspace.ts` with 3 projects: `unit`, `integration`, `smoke`
+- [x] 1.1 Create `vitest.workspace.ts` with 3 projects: `unit`, `integration`, `smoke`
 - [ ] 1.2 Update `package.json` scripts: add `test:unit`, `test:integration`, `test:smoke`
 
 ## 2. Reorganize domain tests
