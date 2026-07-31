@@ -1,3 +1,4 @@
+import fc from "fast-check";
 import { describe, test, expect } from "vitest";
 import { PageBlockTransformer } from "../PageBlockTransformer";
 import { RichText } from "../RichText";
@@ -132,6 +133,53 @@ describe("The PageBlockTransformer", () => {
             const result = PageBlockTransformer.groupConsecutiveItems([]);
 
             expect(result).toEqual([]);
+        });
+    });
+
+    describe("groupConsecutiveItems property tests", () => {
+        const richTextArbitrary = fc
+            .string({ minLength: 1 })
+            .filter(content => content.trim().length > 0)
+            .map(content => RichText.create({ content }));
+
+        const blockArbitrary: fc.Arbitrary<PageBlock> = fc.oneof(
+            fc.record({
+                type: fc.constant("text"),
+                richText: fc.array(richTextArbitrary),
+            }),
+            fc.record({
+                type: fc.constant("heading_1"),
+                richText: fc.array(richTextArbitrary),
+            }),
+            fc.record({
+                type: fc.constant("bulleted_list_item"),
+                richText: fc.array(richTextArbitrary),
+            }),
+            fc.record({
+                type: fc.constant("numbered_list_item"),
+                richText: fc.array(richTextArbitrary),
+            }),
+            fc.record({
+                type: fc.constant("callout"),
+                richText: fc.array(richTextArbitrary),
+                icon: fc.string(),
+            }),
+            fc.record({ type: fc.constant("image"), url: fc.string() }),
+            fc.record({ type: fc.constant("video"), url: fc.string() }),
+        );
+
+        test("remains idempotent for every generated block array", () => {
+            fc.assert(
+                fc.property(fc.array(blockArbitrary), blocks => {
+                    const once =
+                        PageBlockTransformer.groupConsecutiveItems(blocks);
+                    const twice =
+                        PageBlockTransformer.groupConsecutiveItems(once);
+
+                    expect(twice).toEqual(once);
+                }),
+                { numRuns: 100 },
+            );
         });
     });
 });
