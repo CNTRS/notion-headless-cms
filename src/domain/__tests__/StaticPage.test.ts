@@ -7,6 +7,7 @@ import { Tag } from "../Tag";
 import { RichText } from "../RichText";
 import type { PageBlock } from "../blocks";
 import { InvalidStaticPageError } from "../errors";
+import { StaticPageBuilder } from "./builders/StaticPageBuilder";
 
 describe("The StaticPage", () => {
     const pageId = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
@@ -97,12 +98,10 @@ describe("The StaticPage", () => {
 
     describe("withContent", () => {
         test("creates a new page with the given content", () => {
-            const page = StaticPage.create({
-                id: pageId,
-                slug,
-                status,
-                title: "Original",
-            });
+            const page = new StaticPageBuilder()
+                .withId("ad9bcf91-3a83-4504-91ba-e2503d90caba")
+                .withTitle("Original")
+                .build();
             const richText = RichText.create({ content: "hello" });
             const blocks: PageBlock[] = [
                 { type: "text", richText: [richText] },
@@ -117,12 +116,10 @@ describe("The StaticPage", () => {
         });
 
         test("does not mutate the original page", () => {
-            const page = StaticPage.create({
-                id: pageId,
-                slug,
-                status,
-                title: "Original",
-            });
+            const page = new StaticPageBuilder()
+                .withId("ad9bcf91-3a83-4504-91ba-e2503d90caba")
+                .withTitle("Original")
+                .build();
             const blocks: PageBlock[] = [{ type: "divider" }];
 
             page.withContent(blocks);
@@ -133,28 +130,27 @@ describe("The StaticPage", () => {
 
     describe("equals", () => {
         test("compares two pages sharing the same PageId", () => {
-            const id = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
-            const a = StaticPage.create({ id, slug, status, title: "Page A" });
-            const b = StaticPage.create({ id, slug, status, title: "Page B" });
+            const a = new StaticPageBuilder()
+                .withId("ad9bcf91-3a83-4504-91ba-e2503d90caba")
+                .withTitle("Page A")
+                .build();
+            const b = new StaticPageBuilder()
+                .withId("ad9bcf91-3a83-4504-91ba-e2503d90caba")
+                .withTitle("Page B")
+                .build();
 
             expect(a.equals(b)).toBe(true);
         });
 
         test("compares two pages with different PageIds", () => {
-            const idA = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
-            const idB = PageId.create("7c0c0c0c-0c0c-0c0c-0c0c-0c0c0c0c0c0c");
-            const a = StaticPage.create({
-                id: idA,
-                slug,
-                status,
-                title: "Page A",
-            });
-            const b = StaticPage.create({
-                id: idB,
-                slug,
-                status,
-                title: "Page B",
-            });
+            const a = new StaticPageBuilder()
+                .withId("ad9bcf91-3a83-4504-91ba-e2503d90caba")
+                .withTitle("Page A")
+                .build();
+            const b = new StaticPageBuilder()
+                .withId("7c0c0c0c-0c0c-0c0c-0c0c-0c0c0c0c0c0c")
+                .withTitle("Page B")
+                .build();
 
             expect(a.equals(b)).toBe(false);
         });

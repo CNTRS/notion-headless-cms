@@ -17,7 +17,7 @@
 ## 4. Builder refinement
 
 - [x] 4.1 Review `StaticPageBuilder` — add convenience methods if missing (`.withDefaultContent()`, etc.)
-- [ ] 4.2 Ensure all domain tests use the builder instead of ad-hoc construction
+- [x] 4.2 Ensure all domain tests use the builder instead of ad-hoc construction
 
 ## 5. Verification
 
