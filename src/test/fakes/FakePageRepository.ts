@@ -3,17 +3,15 @@ import type { StaticPage, PageBlock, PageId } from "../../domain";
 
 interface SeedData {
     pages: StaticPage[];
-    blocks: Map<string, PageBlock[]>;
+    blocks: Map<PageId, PageBlock[]>;
 }
 
 export class FakePageRepository implements IPageRepository {
-    private readonly pages: Map<string, StaticPage>;
-    private readonly blocks: Map<string, PageBlock[]>;
+    private readonly pages: Map<PageId, StaticPage>;
+    private readonly blocks: Map<PageId, PageBlock[]>;
 
     constructor(seed: SeedData) {
-        this.pages = new Map(
-            seed.pages.map(page => [page.id.toString(), page]),
-        );
+        this.pages = new Map(seed.pages.map(page => [page.id, page]));
         this.blocks = new Map(seed.blocks);
     }
 
@@ -22,10 +20,17 @@ export class FakePageRepository implements IPageRepository {
     }
 
     async getPage(id: PageId): Promise<StaticPage | null> {
-        return this.pages.get(id.toString()) ?? null;
+        return this.find(this.pages, id) ?? null;
     }
 
     async getPageBlocks(id: PageId): Promise<PageBlock[]> {
-        return this.blocks.get(id.toString()) ?? [];
+        return this.find(this.blocks, id) ?? [];
+    }
+
+    private find<T>(map: Map<PageId, T>, id: PageId): T | undefined {
+        for (const [key, value] of map) {
+            if (key.equals(id)) return value;
+        }
+        return undefined;
     }
 }

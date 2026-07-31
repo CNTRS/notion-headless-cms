@@ -121,7 +121,7 @@ describe("The NotionCMS", () => {
         ];
         const repository = new FakePageRepository({
             pages: [],
-            blocks: new Map([[id.toString(), blocks]]),
+            blocks: new Map([[id, blocks]]),
         });
         const imageFetcher = new FakeImageFetcher(Buffer.from(""));
         const cms = new NotionCMS(repository, imageFetcher);
@@ -159,8 +159,8 @@ describe("The NotionCMS", () => {
         const repository = new FakePageRepository({
             pages: [page1, page2],
             blocks: new Map([
-                [id1.toString(), blocks1],
-                [id2.toString(), blocks2],
+                [id1, blocks1],
+                [id2, blocks2],
             ]),
         });
         const imageFetcher = new FakeImageFetcher(VALID_PNG);
@@ -195,7 +195,7 @@ describe("The NotionCMS", () => {
         ];
         const repository = new FakePageRepository({
             pages: [page],
-            blocks: new Map([[id.toString(), blocks]]),
+            blocks: new Map([[id, blocks]]),
         });
         const imageFetcher = new FakeImageFetcher(VALID_PNG);
         const cms = new NotionCMS(repository, imageFetcher);
@@ -226,7 +226,7 @@ describe("The NotionCMS", () => {
         const blocks: PageBlock[] = [{ type: "text", richText: [] }];
         const repository = new FakePageRepository({
             pages: [page],
-            blocks: new Map([[pageId.toString(), blocks]]),
+            blocks: new Map([[pageId, blocks]]),
         });
         const imageFetcher = new FakeImageFetcher(Buffer.from(""));
         const cms = new NotionCMS(repository, imageFetcher);
@@ -254,7 +254,7 @@ describe("The NotionCMS", () => {
         ];
         const repository = new FakePageRepository({
             pages: [page],
-            blocks: new Map([[id.toString(), blocks]]),
+            blocks: new Map([[id, blocks]]),
         });
         const imageFetcher = new FakeImageFetcher(VALID_PNG);
         const cms = new NotionCMS(repository, imageFetcher);
@@ -287,7 +287,7 @@ describe("The NotionCMS", () => {
         ];
         const repository = new FakePageRepository({
             pages: [page],
-            blocks: new Map([[id.toString(), blocks]]),
+            blocks: new Map([[id, blocks]]),
         });
         const imageFetcher = new FakeImageFetcher(VALID_PNG);
         const cms = new NotionCMS(repository, imageFetcher);
@@ -322,7 +322,7 @@ describe("The NotionCMS", () => {
         ];
         const repository = new FakePageRepository({
             pages: [page],
-            blocks: new Map([[id.toString(), blocks]]),
+            blocks: new Map([[id, blocks]]),
         });
         const imageFetcher = new FakeImageFetcher(VALID_PNG);
         const cms = new NotionCMS(repository, imageFetcher);

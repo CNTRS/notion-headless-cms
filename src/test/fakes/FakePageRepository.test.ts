@@ -73,7 +73,7 @@ describe("The FakePageRepository", () => {
         ];
         const repository = new FakePageRepository({
             pages: [createPage()],
-            blocks: new Map([[PAGE_ID.toString(), blocks]]),
+            blocks: new Map([[PAGE_ID, blocks]]),
         });
 
         const result = await repository.getPageBlocks(PAGE_ID);
