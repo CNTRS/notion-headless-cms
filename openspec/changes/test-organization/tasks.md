@@ -21,8 +21,8 @@
 
 ## 5. Verification
 
-- [ ] 5.1 Run `pnpm test:unit` — only domain tests run
-- [ ] 5.2 Run `pnpm test:integration` — only non-domain tests run
-- [ ] 5.3 Run `pnpm test` — all tests pass
-- [ ] 5.4 Run `pnpm lint` — no errors
-- [ ] 5.5 Run `pnpm build` — compilation succeeds
+- [x] 5.1 Run `pnpm test:unit` — only domain tests run
+- [x] 5.2 Run `pnpm test:integration` — only non-domain tests run
+- [x] 5.3 Run `pnpm test` — all tests pass
+- [x] 5.4 Run `pnpm lint` — no errors
+- [x] 5.5 Run `pnpm build` — compilation succeeds
