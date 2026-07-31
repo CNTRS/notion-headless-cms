@@ -26,7 +26,7 @@ describe("The PageBlock", () => {
             expect(block.type).toBe("heading_1");
         });
 
-        test("narrows heading to subtype", () => {
+        test("accepts heading level one", () => {
             const blocks: PageBlock[] = [
                 { type: "heading_1", richText: [] },
                 { type: "heading_2", richText: [] },
@@ -209,7 +209,7 @@ describe("The PageBlock", () => {
     });
 
     describe("exhaustive narrowing", () => {
-        test("exhaustively narrows on type", () => {
+        test("recognizes every block type", () => {
             function describeBlock(block: PageBlock): string {
                 switch (block.type) {
                     case "text":

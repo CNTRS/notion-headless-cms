@@ -4,7 +4,7 @@ import { StaticPage } from "../StaticPage";
 
 describe("The StaticPageBuilder", () => {
     describe("build", () => {
-        test("builds a page with minimum overrides", () => {
+        test("builds a page with an overridden title", () => {
             const page = new StaticPageBuilder().withTitle("Custom").build();
 
             expect(page.title).toBe("Custom");
@@ -27,7 +27,7 @@ describe("The StaticPageBuilder", () => {
     });
 
     describe("with-field methods", () => {
-        test("chains every with-field method", () => {
+        test("applies all builder overrides to the built page", () => {
             const page = new StaticPageBuilder()
                 .withSlug("my-slug")
                 .withTitle("My Title")

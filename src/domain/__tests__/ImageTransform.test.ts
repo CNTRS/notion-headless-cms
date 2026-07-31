@@ -13,7 +13,7 @@ describe("The ImageTransform", () => {
     );
 
     describe("process", () => {
-        test("processes a PNG buffer returning base64, dimensions and format", () => {
+        test("extracts base64, dimensions and format from a PNG buffer", () => {
             const result = ImageTransform.process(pngBuffer);
 
             expect(result.base64).toBe(pngBuffer.toString("base64"));
@@ -22,7 +22,7 @@ describe("The ImageTransform", () => {
             expect(result.format).toBe("png");
         });
 
-        test("processes a JPEG buffer returning correct dimensions and format", () => {
+        test("extracts dimensions and format from a JPEG buffer", () => {
             const result = ImageTransform.process(jpegBuffer);
 
             expect(result.base64).toBe(jpegBuffer.toString("base64"));

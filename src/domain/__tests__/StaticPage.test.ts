@@ -96,7 +96,7 @@ describe("The StaticPage", () => {
     });
 
     describe("withContent", () => {
-        test("returns a new instance with updated content", () => {
+        test("creates a new page with the given content", () => {
             const page = StaticPage.create({
                 id: pageId,
                 slug,
