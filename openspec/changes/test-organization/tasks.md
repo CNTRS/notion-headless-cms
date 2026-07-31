@@ -10,7 +10,7 @@
 
 ## 3. Property-based tests
 
-- [ ] 3.1 Install `fast-check` dev dependency
+- [x] 3.1 Install `fast-check` dev dependency
 - [ ] 3.2 Add idempotence property test for `PageBlockTransformer.groupConsecutiveItems()`
 - [ ] 3.3 Add "no orphaned consecutive list items" property test
 

@@ -27,6 +27,7 @@
         "@biomejs/biome": "^2.5.4",
         "@types/node": "^20.19.25",
         "dotenv": "^16.6.1",
+        "fast-check": "^4.9.0",
         "msw": "^2.15.0",
         "typescript": "^5.9.3",
         "vite": "6.4.3",
