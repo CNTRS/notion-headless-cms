@@ -60,13 +60,21 @@ async listPages(): Promise<StaticPage[]> {
 
 **Alternatives considered:**
 - Accept `data_source_id` directly in the constructor instead of `database_id` → breaks the existing `IPageRepository` interface and shifts the resolution burden to the composition root.
-- Keep using `client.databases.query()` (still exists in v5 for database-level operations) → this endpoint no longer returns pages; it returns data-source metadata. Would silently return wrong results.
+- Keep using `client.databases.query()` → this endpoint is removed in v5; `dataSources.query()` is required. Would silently return wrong results.
+
+### NotionDataSourceError lives in the infrastructure layer
+
+**Decision:** `NotionDataSourceError` is defined in a new `src/infrastructure/errors.ts`, next to the adapter that throws it — NOT in `src/domain/errors.ts`.
+
+**Rationale:** A data-source resolution failure is an adapter/infrastructure concern, not a domain concept. Keeping the domain error set pure (`InvalidSlugError`, `InvalidPageIdError`, ...) preserves the hexagonal boundary: `src/domain/` stays independent of how pages are stored, and the adapter owns its failure modes.
 
 ### MSW handler routing changes
 
 **Decision:** Update the existing handler for database query to route `/v1/data_sources/:id/query` instead of `/v1/databases/:id/query`. Also add a handler for `GET /v1/databases/:id` (used by the resolution step).
 
 **Rationale:** The MSW interceptors must match the URLs the v5 SDK calls. The resolution step (`databases.retrieve()`) is a new HTTP interaction that needs its own handler and fixture.
+
+**Gap closed:** `src/test/msw/__tests__/msw-server.test.ts` asserts that `POST /v1/databases/test/query` returns 200. After the routing change that handler disappears, so this smoke assertion is repointed to `POST /v1/data_sources/test/query` and extended with a `GET /v1/databases/test` check (Task 3.4). This file was missing from the original impact scope.
 
 ### Fixture updates for 2025-09-03 response format
 
@@ -100,11 +108,11 @@ async listPages(): Promise<StaticPage[]> {
 
 **Decision:** The test file `src/infrastructure/__tests__/NotionPageRepository.test.ts` is modified in place — same file, updated handlers and fixtures. No new test files.
 
-**Rationale:** The test scenarios (list pages returns mapped StaticPage[], getPage returns page or null, getPageBlocks handles pagination) are unchanged. Only the wire-up changes.
+**Rationale:** The test scenarios (list pages returns mapped StaticPage[], getPage returns page or null, getPageBlocks handles pagination) are unchanged. Only the wire-up changes. The inline `server.use()` overrides migrate to `/v1/data_sources/:id/query` plus a `GET /v1/databases/:id` handler, and two new scenarios are added (Task 5): `listPages()` resolves the `data_source_id` via `databases.retrieve()` before querying, and `listPages()` throws `NotionDataSourceError` when the database reports no data sources.
 
 ## Risks / Trade-offs
 
-- **[Resolution failure]** If `databases.retrieve()` returns no `data_sources` or the database doesn't exist, `listPages()` would fail with a cryptic error. **Mitigation:** Throw a descriptive `NotionDataSourceError` (or similar) when the data sources array is empty.
+- **[Resolution failure]** If `databases.retrieve()` returns no `data_sources` or the database doesn't exist, `listPages()` would fail with a cryptic error. **Mitigation:** Throw a descriptive `NotionDataSourceError` (defined in `src/infrastructure/errors.ts`) when the data sources array is empty.
 - **[Extra API call]** Each `NotionPageRepository` instance makes one extra API call (retrieve database) on first use. **Mitigation:** A single DB instance means this is a one-time cost. Cache the resolved `data_source_id` per instance.
 - **[Fixture drift]** Re-captured fixtures may differ from the existing ones in subtle ways, causing test regressions. **Mitigation:** Run the full test suite after updating fixtures and diff the old vs new fixtures to understand the delta.
 - **[MSW compatibility]** MSW must support intercepting the URLs that the v5 SDK calls. The SDK uses `fetch` internally (v3+), so MSW should intercept transparently. **Mitigation:** Verify with a smoke test during implementation.

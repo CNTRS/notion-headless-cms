@@ -5,8 +5,8 @@
 
 ## 2. Update NotionPageRepository
 
-- [ ] 2.1 Add `resolveDataSourceId()` private method that calls `client.databases.retrieve()` and extracts `data_source_id`
-- [ ] 2.2 Add `NotionDataSourceError` to `src/domain/errors.ts` for when resolution returns no data sources
+- [ ] 2.1 Add `resolveDataSourceId()` private method that calls `client.databases.retrieve()` and extracts `data_source_id`, caching the result per instance
+- [ ] 2.2 Add `NotionDataSourceError` in `src/infrastructure/errors.ts` (infrastructure layer, NOT `src/domain/errors.ts`) for when resolution returns no data sources
 - [ ] 2.3 Replace `client.databases.query()` with `client.dataSources.query()` in `listPages()`, resolving `data_source_id` first
 - [ ] 2.4 Verify `pages.retrieve()` and `blocks.children.list()` still compile with v5 types (no changes expected)
 
@@ -15,6 +15,7 @@
 - [ ] 3.1 Add MSW handler for `GET /v1/databases/:id` (used by the resolution step) returning `data_sources[]`
 - [ ] 3.2 Update existing database query handler from `/v1/databases/:id/query` to `/v1/data_sources/:id/query`
 - [ ] 3.3 Verify all existing handlers for pages and blocks still match v5 URL patterns
+- [ ] 3.4 Update `src/test/msw/__tests__/msw-server.test.ts` — its assertion targets `POST /v1/databases/test/query`, which no longer has a handler after 3.2; repoint it to `POST /v1/data_sources/test/query` and add a `GET /v1/databases/test` check for the resolution step
 
 ## 4. Create v5 test fixtures
 
@@ -45,13 +46,19 @@ Copy from `infrastructure-repository/fixtures/` with v5 transformations. All fix
 ### Verification
 
 - [ ] 4.1 Confirm all 11 fixture files exist in `openspec/changes/upgrade-notion-sdk/fixtures/`
-- [ ] 4.2 Verify no fixture contains the v2-only field `"archived"` 
+- [ ] 4.2 Verify no fixture contains the v2-only field `"archived"`
 - [ ] 4.3 Confirm that `dataSources.query.*.json` and `databases.retrieve.json` reference the same `data_source_id`
-- [ ] 4.4 On implementation: copy fixtures to test infrastructure and run adapter tests
 
-## 5. Verification
+## 5. Update adapter tests
 
-- [ ] 5.1 Run `pnpm build` (tsc + vite build) — compilation succeeds
-- [ ] 5.2 Run `pnpm test` — all adapter tests pass
-- [ ] 5.3 Run `pnpm lint` — no lint errors
-- [ ] 5.4 Run example script (requires `.env`) to confirm real API integration works with v5
+- [ ] 5.1 Migrate inline `server.use()` overrides in `src/infrastructure/__tests__/NotionPageRepository.test.ts` from `/v1/databases/:id/query` to `/v1/data_sources/:id/query`, registering a `GET /v1/databases/:id` handler for the resolution step
+- [ ] 5.2 Add test: `listPages()` resolves the `data_source_id` via `databases.retrieve()` before querying
+- [ ] 5.3 Add test: `listPages()` throws `NotionDataSourceError` when the database has no data sources
+- [ ] 5.4 Copy the 11 v5 fixtures from `openspec/changes/upgrade-notion-sdk/fixtures/` into `src/test/msw/fixtures/` and delete the obsolete `databases.query.*.json`
+
+## 6. Verification
+
+- [ ] 6.1 Run `pnpm build` (tsc + vite build) — compilation succeeds
+- [ ] 6.2 Run `pnpm test` — all adapter tests pass
+- [ ] 6.3 Run `pnpm lint` — no lint errors
+- [ ] 6.4 Run example script (requires `.env`) to confirm real API integration works with v5
