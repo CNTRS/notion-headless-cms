@@ -1,11 +1,6 @@
 import { InvalidPageStatusError } from "./errors";
 
-const ALLOWED_STATUSES = [
-    "draft",
-    "published",
-    "archived",
-    "development",
-] as const;
+const ALLOWED_STATUSES = ["draft", "published", "archived"] as const;
 
 export type PageStatusValue = (typeof ALLOWED_STATUSES)[number];
 
