@@ -1,7 +1,7 @@
 import { describe, test, expect } from "vitest";
 import { ImageTransform } from "../ImageTransform";
 
-describe("The ImageTransform", () => {
+describe("ImageTransform", () => {
     const pngBuffer = Buffer.from(
         "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVQIW2P8z8BQz8BQz8BQz8BQzwAAjAMH+WHu5QAAAABJRU5ErkJggg==",
         "base64",

@@ -2,7 +2,7 @@ import { describe, test, expect } from "vitest";
 import type { PageBlock, ListItem } from "../blocks";
 import { RichText } from "../RichText";
 
-describe("The PageBlock", () => {
+describe("PageBlock", () => {
     describe("text", () => {
         test("discriminates text block by type", () => {
             const block: PageBlock = { type: "text", richText: [] };

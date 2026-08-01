@@ -2,7 +2,7 @@ import { describe, test, expect } from "vitest";
 import { RichText } from "../RichText";
 import { InvalidRichTextError } from "../errors";
 
-describe("The RichText", () => {
+describe("RichText", () => {
     describe("create", () => {
         test("rejects empty content", () => {
             expect(() => RichText.create({ content: "" })).toThrow(

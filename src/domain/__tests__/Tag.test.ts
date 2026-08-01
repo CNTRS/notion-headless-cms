@@ -2,7 +2,7 @@ import { describe, test, expect } from "vitest";
 import { Tag } from "../Tag";
 import { InvalidTagError } from "../errors";
 
-describe("The Tag", () => {
+describe("Tag", () => {
     describe("create", () => {
         test("accepts a valid tag", () => {
             const tag = Tag.create("off topic");

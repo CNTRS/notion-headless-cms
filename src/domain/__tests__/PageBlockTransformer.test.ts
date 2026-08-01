@@ -4,7 +4,7 @@ import { PageBlockTransformer } from "../PageBlockTransformer";
 import { RichText } from "../RichText";
 import type { PageBlock } from "../blocks";
 
-describe("The PageBlockTransformer", () => {
+describe("PageBlockTransformer", () => {
     describe("groupConsecutiveItems", () => {
         test("groups consecutive bulleted items into a single BulletedList", () => {
             const richTextA = RichText.create({ content: "A" });

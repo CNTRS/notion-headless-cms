@@ -2,7 +2,7 @@ import { describe, test, expect } from "vitest";
 import { Slug } from "../Slug";
 import { InvalidSlugError } from "../errors";
 
-describe("The Slug", () => {
+describe("Slug", () => {
     describe("create", () => {
         test("accepts a valid slug", () => {
             const slug = Slug.create("my-article-title");

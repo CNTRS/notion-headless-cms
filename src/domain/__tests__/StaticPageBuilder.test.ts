@@ -2,7 +2,7 @@ import { describe, test, expect } from "vitest";
 import { StaticPageBuilder } from "./builders/StaticPageBuilder";
 import { StaticPage } from "../StaticPage";
 
-describe("The StaticPageBuilder", () => {
+describe("StaticPageBuilder", () => {
     describe("build", () => {
         test("builds a page with an overridden title", () => {
             const page = new StaticPageBuilder().withTitle("Custom").build();

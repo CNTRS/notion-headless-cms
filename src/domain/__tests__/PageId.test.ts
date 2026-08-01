@@ -2,7 +2,7 @@ import { describe, test, expect } from "vitest";
 import { PageId } from "../PageId";
 import { InvalidPageIdError } from "../errors";
 
-describe("The PageId", () => {
+describe("PageId", () => {
     describe("create", () => {
         test("accepts a valid UUID", () => {
             const id = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");

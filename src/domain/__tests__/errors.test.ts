@@ -6,7 +6,7 @@ import {
     InvalidTagError,
 } from "../errors";
 
-describe("The domain errors", () => {
+describe("domain errors", () => {
     describe("InvalidPageIdError", () => {
         test("creates with name and message", () => {
             const error = new InvalidPageIdError("bad id");

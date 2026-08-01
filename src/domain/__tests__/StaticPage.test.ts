@@ -9,7 +9,7 @@ import type { PageBlock } from "../blocks";
 import { InvalidStaticPageError } from "../errors";
 import { StaticPageBuilder } from "./builders/StaticPageBuilder";
 
-describe("The StaticPage", () => {
+describe("StaticPage", () => {
     const pageId = PageId.create("ad9bcf91-3a83-4504-91ba-e2503d90caba");
     const slug = Slug.create("my-page");
     const status = PageStatus.create("draft");

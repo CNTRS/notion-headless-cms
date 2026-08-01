@@ -2,7 +2,7 @@ import { describe, test, expect } from "vitest";
 import { PageStatus } from "../PageStatus";
 import { InvalidPageStatusError } from "../errors";
 
-describe("The PageStatus", () => {
+describe("PageStatus", () => {
     describe("create", () => {
         test("accepts 'draft'", () => {
             const status = PageStatus.create("draft");
