@@ -61,5 +61,6 @@ Copy from `infrastructure-repository/fixtures/` with v5 transformations. All fix
 - [x] 6.1 Run `pnpm build` (tsc + vite build) — compilation succeeds
 - [x] 6.2 Run `pnpm test` — all adapter tests pass
 - [x] 6.3 Run `pnpm lint` — no lint errors
-- [ ] 6.4 Run example script (requires `.env` with valid `NOTION_TOKEN`/`NOTION_DB`; currently BLOCKED — no credentials available in the environment) to confirm real API integration works with v5
+- [x] 6.4 Run example script (requires `.env` with valid `NOTION_TOKEN`/`NOTION_DB`; currently BLOCKED — no credentials available in the environment) to confirm real API integration works with v5
   - Partial check done: `npx tsx examples/fetch-and-store.ts` runs to the auth boundary — reaches `NotionPageRepository.resolveDataSourceId()` and fails only with `401 "API token is invalid"` (no `.env` present). Confirms the v5 SDK path loads and executes; real integration unverified. Requires a `.env` with valid credentials to complete.
+  - Final check: with `.env` loaded (`npx tsx --env-file=.env examples/fetch-and-store.ts`), the full v5 chain succeeds against the live API — auth, `databases.retrieve()` → `data_source_id`, `dataSources.query()`, `pages.retrieve()`, `blocks.children.list()`, image fetching — and writes `data.json` (2.5 MB). First run hit `InvalidPageStatusError: development` (status value not in domain allowlist); after the DB column was updated to match the spec, the script completed successfully.
