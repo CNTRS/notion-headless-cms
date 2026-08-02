@@ -7,10 +7,10 @@
         "dist"
     ],
     "engines": {
-        "node": ">=18.16.0"
+        "node": ">=22.0.0"
     },
-    "main": "./dist/notion-cms.js",
-    "module": "./dist/notion-cms.js",
+    "main": "./dist/notion-headless-cms.js",
+    "module": "./dist/notion-headless-cms.js",
     "scripts": {
         "preinstall": "npx only-allow pnpm",
         "build": "tsc && vite build",
@@ -25,7 +25,7 @@
     },
     "devDependencies": {
         "@biomejs/biome": "^2.5.4",
-        "@types/node": "^20.19.25",
+        "@types/node": "22.13.14",
         "dotenv": "^16.6.1",
         "fast-check": "^4.9.0",
         "msw": "^2.15.0",
