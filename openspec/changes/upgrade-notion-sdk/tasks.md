@@ -61,4 +61,4 @@ Copy from `infrastructure-repository/fixtures/` with v5 transformations. All fix
 - [x] 6.1 Run `pnpm build` (tsc + vite build) — compilation succeeds
 - [x] 6.2 Run `pnpm test` — all adapter tests pass
 - [x] 6.3 Run `pnpm lint` — no lint errors
-- [ ] 6.4 Run example script (requires `.env`) to confirm real API integration works with v5
+- [ ] 6.4 Run example script (requires `.env` with valid `NOTION_TOKEN`/`NOTION_DB`; currently BLOCKED — no credentials available in the environment) to confirm real API integration works with v5
