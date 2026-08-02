@@ -34,7 +34,7 @@
         "vitest": "3.2.6"
     },
     "dependencies": {
-        "@notionhq/client": "^2.3.0",
+        "@notionhq/client": "^5.23.2",
         "image-size": "^1.2.1"
     }
 }
