@@ -45,7 +45,7 @@ Copy from `infrastructure-repository/fixtures/` with v5 transformations. All fix
 
 ### Verification
 
-- [ ] 4.1 Confirm all 11 fixture files exist in `openspec/changes/upgrade-notion-sdk/fixtures/`
+- [x] 4.1 Confirm all 11 fixture files exist in `openspec/changes/upgrade-notion-sdk/fixtures/`
 - [ ] 4.2 Verify no fixture contains the v2-only field `"archived"`
 - [ ] 4.3 Confirm that `dataSources.query.*.json` and `databases.retrieve.json` reference the same `data_source_id`
 
