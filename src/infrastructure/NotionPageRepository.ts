@@ -1,6 +1,7 @@
 import type { Client } from "@notionhq/client";
 import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import type { IPageRepository } from "../ports";
+import { NotionDataSourceError } from "./errors";
 import type { PageBlock } from "../domain";
 import { StaticPage } from "../domain/StaticPage";
 import { PageId } from "../domain/PageId";
@@ -227,14 +228,34 @@ function mapNotionBlock(block: NotionBlock): PageBlock | null {
 }
 
 export class NotionPageRepository implements IPageRepository {
+    private dataSourceId: string | null = null;
+
     constructor(
         private client: Client,
         private databaseId: string,
     ) {}
 
-    async listPages(): Promise<StaticPage[]> {
-        const response = await this.client.databases.query({
+    private async resolveDataSourceId(): Promise<string> {
+        if (this.dataSourceId !== null) return this.dataSourceId;
+
+        const response = await this.client.databases.retrieve({
             database_id: this.databaseId,
+        });
+        if (
+            !("data_sources" in response) ||
+            response.data_sources.length === 0
+        ) {
+            throw new NotionDataSourceError(this.databaseId);
+        }
+
+        this.dataSourceId = response.data_sources[0].id;
+        return this.dataSourceId;
+    }
+
+    async listPages(): Promise<StaticPage[]> {
+        const dataSourceId = await this.resolveDataSourceId();
+        const response = await this.client.dataSources.query({
+            data_source_id: dataSourceId,
         });
         return response.results
             .filter(
