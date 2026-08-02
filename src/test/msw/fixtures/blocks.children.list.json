@@ -21,7 +21,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "paragraph",
             "paragraph": {
@@ -133,7 +132,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "heading_1",
             "heading_1": {
@@ -178,7 +176,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "heading_2",
             "heading_2": {
@@ -223,7 +220,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "heading_3",
             "heading_3": {
@@ -268,7 +264,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "image",
             "image": {
@@ -315,7 +310,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "callout",
             "callout": {
@@ -363,7 +357,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "bulleted_list_item",
             "bulleted_list_item": {
@@ -407,7 +400,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "bulleted_list_item",
             "bulleted_list_item": {
@@ -451,7 +443,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "bulleted_list_item",
             "bulleted_list_item": {
@@ -495,7 +486,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "numbered_list_item",
             "numbered_list_item": {
@@ -539,7 +529,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "numbered_list_item",
             "numbered_list_item": {
@@ -583,7 +572,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "video",
             "video": {
@@ -612,7 +600,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "code",
             "code": {
@@ -675,7 +662,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "quote",
             "quote": {
@@ -719,7 +705,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "divider",
             "divider": {}

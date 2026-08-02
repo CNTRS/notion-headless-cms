@@ -3,14 +3,16 @@ import { Client } from "@notionhq/client";
 import { http, HttpResponse } from "msw";
 import { server } from "../../test/msw/server";
 import { NotionPageRepository } from "../NotionPageRepository";
+import { NotionDataSourceError } from "../errors";
 import type { IPageRepository } from "../../ports";
 import { PageId } from "../../domain/PageId";
 import { Slug } from "../../domain/Slug";
 import { PageStatus } from "../../domain/PageStatus";
 import { Tag } from "../../domain/Tag";
 
-import databasesQuery from "../../test/msw/fixtures/databases.query.json";
-import databasesQueryEmpty from "../../test/msw/fixtures/databases.query.empty.json";
+import databasesRetrieve from "../../test/msw/fixtures/databases.retrieve.json";
+import dataSourcesQuery from "../../test/msw/fixtures/dataSources.query.json";
+import dataSourcesQueryEmpty from "../../test/msw/fixtures/dataSources.query.empty.json";
 import pagesRetrieve from "../../test/msw/fixtures/pages.retrieve.json";
 import blocksPaginated1 from "../../test/msw/fixtures/blocks.children.list.paginated.1.json";
 import blocksPaginated2 from "../../test/msw/fixtures/blocks.children.list.paginated.2.json";
@@ -41,11 +43,17 @@ describe("The NotionPageRepository", () => {
         expect(repo).toBeDefined();
     });
 
-    test("listPages queries the database and maps results to StaticPage[]", async () => {
+    test("listPages queries the data source and maps results to StaticPage[]", async () => {
         server.use(
-            http.post(`${NOTION_API}/v1/databases/:databaseId/query`, () => {
-                return HttpResponse.json(databasesQuery);
+            http.get(`${NOTION_API}/v1/databases/:databaseId`, () => {
+                return HttpResponse.json(databasesRetrieve);
             }),
+            http.post(
+                `${NOTION_API}/v1/data_sources/:dataSourceId/query`,
+                () => {
+                    return HttpResponse.json(dataSourcesQuery);
+                },
+            ),
         );
         const repo = new NotionPageRepository(
             createClient(),
@@ -70,11 +78,17 @@ describe("The NotionPageRepository", () => {
         expect(pages[0].tags[1].equals(Tag.create("review"))).toBe(true);
     });
 
-    test("listPages returns empty array when database is empty", async () => {
+    test("listPages lists no pages when the data source is empty", async () => {
         server.use(
-            http.post(`${NOTION_API}/v1/databases/:databaseId/query`, () => {
-                return HttpResponse.json(databasesQueryEmpty);
+            http.get(`${NOTION_API}/v1/databases/:databaseId`, () => {
+                return HttpResponse.json(databasesRetrieve);
             }),
+            http.post(
+                `${NOTION_API}/v1/data_sources/:dataSourceId/query`,
+                () => {
+                    return HttpResponse.json(dataSourcesQueryEmpty);
+                },
+            ),
         );
         const repo = new NotionPageRepository(
             createClient(),
@@ -84,6 +98,59 @@ describe("The NotionPageRepository", () => {
         const pages = await repo.listPages();
 
         expect(pages).toEqual([]);
+    });
+
+    test("listPages resolves the data source id via databases.retrieve() before querying", async () => {
+        let retrievedDatabaseId: string | undefined;
+        let queriedDataSourceId: string | undefined;
+        let retrieveCalls = 0;
+        server.use(
+            http.get(`${NOTION_API}/v1/databases/:databaseId`, ({ params }) => {
+                retrievedDatabaseId = params.databaseId as string;
+                retrieveCalls += 1;
+                return HttpResponse.json(databasesRetrieve);
+            }),
+            http.post(
+                `${NOTION_API}/v1/data_sources/:dataSourceId/query`,
+                ({ params }) => {
+                    queriedDataSourceId = params.dataSourceId as string;
+                    return HttpResponse.json(dataSourcesQuery);
+                },
+            ),
+        );
+        const repo = new NotionPageRepository(
+            createClient(),
+            "7431d3ba-b390-4418-ae50-e68277a29263",
+        );
+
+        await repo.listPages();
+        await repo.listPages();
+
+        expect(retrievedDatabaseId).toBe(
+            "7431d3ba-b390-4418-ae50-e68277a29263",
+        );
+        expect(queriedDataSourceId).toBe("ds_ad9bcf91");
+        expect(retrieveCalls).toBe(1);
+    });
+
+    test("listPages fails when the database has no data sources", async () => {
+        server.use(
+            http.get(`${NOTION_API}/v1/databases/:databaseId`, () => {
+                return HttpResponse.json({
+                    object: "database",
+                    id: "7431d3ba-b390-4418-ae50-e68277a29263",
+                    data_sources: [],
+                });
+            }),
+        );
+        const repo = new NotionPageRepository(
+            createClient(),
+            "7431d3ba-b390-4418-ae50-e68277a29263",
+        );
+
+        await expect(repo.listPages()).rejects.toBeInstanceOf(
+            NotionDataSourceError,
+        );
     });
 
     test("getPage returns a mapped StaticPage for an existing page ID", async () => {

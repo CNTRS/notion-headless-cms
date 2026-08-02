@@ -21,7 +21,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "bookmark",
             "bookmark": {
@@ -47,7 +46,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": true,
-            "archived": false,
             "in_trash": false,
             "type": "table",
             "table": {
@@ -74,7 +72,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "table_row",
             "table_row": {
@@ -138,7 +135,6 @@
                 "id": "cb4decf1-fcbd-45bf-99aa-81d265a1aec7"
             },
             "has_children": false,
-            "archived": false,
             "in_trash": false,
             "type": "unsupported",
             "unsupported": {

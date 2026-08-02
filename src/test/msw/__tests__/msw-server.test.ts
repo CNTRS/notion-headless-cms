@@ -8,9 +8,19 @@ describe("The MSW server", () => {
 
     test("intercepts HTTP requests to api.notion.com", async () => {
         const response = await fetch(
-            "https://api.notion.com/v1/databases/test/query",
+            "https://api.notion.com/v1/data_sources/test/query",
             { method: "POST" },
         );
         expect(response.status).toBe(200);
+    });
+
+    test("reports the data sources that back a database", async () => {
+        const response = await fetch(
+            "https://api.notion.com/v1/databases/test",
+        );
+
+        expect(response.status).toBe(200);
+        const body = await response.json();
+        expect(body.data_sources).toHaveLength(1);
     });
 });
