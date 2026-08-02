@@ -8,7 +8,7 @@ describe("The MSW server", () => {
 
     test("intercepts HTTP requests to api.notion.com", async () => {
         const response = await fetch(
-            "https://api.notion.com/v1/databases/test/query",
+            "https://api.notion.com/v1/data_sources/test/query",
             { method: "POST" },
         );
         expect(response.status).toBe(200);

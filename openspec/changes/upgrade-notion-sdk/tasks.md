@@ -13,9 +13,9 @@
 ## 3. Update MSW test infrastructure
 
 - [x] 3.1 Add MSW handler for `GET /v1/databases/:id` (used by the resolution step) returning `data_sources[]`
-- [ ] 3.2 Update existing database query handler from `/v1/databases/:id/query` to `/v1/data_sources/:id/query`
+- [x] 3.2 Update existing database query handler from `/v1/databases/:id/query` to `/v1/data_sources/:id/query`
 - [ ] 3.3 Verify all existing handlers for pages and blocks still match v5 URL patterns
-- [ ] 3.4 Update `src/test/msw/__tests__/msw-server.test.ts` — its assertion targets `POST /v1/databases/test/query`, which no longer has a handler after 3.2; repoint it to `POST /v1/data_sources/test/query` and add a `GET /v1/databases/test` check for the resolution step
+- [x] 3.4 Update `src/test/msw/__tests__/msw-server.test.ts` — its assertion targets `POST /v1/databases/test/query`, which no longer has a handler after 3.2; repoint it to `POST /v1/data_sources/test/query` and add a `GET /v1/databases/test` check for the resolution step
 
 ## 4. Create v5 test fixtures
 

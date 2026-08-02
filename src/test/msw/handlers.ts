@@ -1,6 +1,6 @@
 import { http, HttpResponse } from "msw";
 import databasesRetrieve from "./fixtures/databases.retrieve.json";
-import databasesQuery from "./fixtures/databases.query.json";
+import dataSourcesQuery from "./fixtures/dataSources.query.json";
 import pagesRetrieve from "./fixtures/pages.retrieve.json";
 import blocksChildrenList from "./fixtures/blocks.children.list.json";
 
@@ -11,8 +11,8 @@ export const handlers = [
         return HttpResponse.json(databasesRetrieve);
     }),
 
-    http.post(`${NOTION_API}/v1/databases/:databaseId/query`, () => {
-        return HttpResponse.json(databasesQuery);
+    http.post(`${NOTION_API}/v1/data_sources/:dataSourceId/query`, () => {
+        return HttpResponse.json(dataSourcesQuery);
     }),
 
     http.get(`${NOTION_API}/v1/pages/:pageId`, ({ params }) => {
