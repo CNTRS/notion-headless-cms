@@ -1,7 +1,7 @@
 ## 1. Update dependency
 
 - [x] 1.1 Update `@notionhq/client` from `^2.3.0` to `^5.23.2` in `package.json`
-- [ ] 1.2 Run `pnpm install` to install new version and verify lockfile
+- [x] 1.2 Run `pnpm install` to install new version and verify lockfile
 
 ## 2. Update NotionPageRepository
 
