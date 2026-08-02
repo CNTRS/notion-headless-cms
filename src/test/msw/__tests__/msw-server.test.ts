@@ -13,4 +13,14 @@ describe("The MSW server", () => {
         );
         expect(response.status).toBe(200);
     });
+
+    test("reports the data sources that back a database", async () => {
+        const response = await fetch(
+            "https://api.notion.com/v1/databases/test",
+        );
+
+        expect(response.status).toBe(200);
+        const body = await response.json();
+        expect(body.data_sources).toHaveLength(1);
+    });
 });
