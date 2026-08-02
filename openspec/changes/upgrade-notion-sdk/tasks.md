@@ -8,7 +8,7 @@
 - [x] 2.1 Add `resolveDataSourceId()` private method that calls `client.databases.retrieve()` and extracts `data_source_id`, caching the result per instance
 - [x] 2.2 Add `NotionDataSourceError` in `src/infrastructure/errors.ts` (infrastructure layer, NOT `src/domain/errors.ts`) for when resolution returns no data sources
 - [x] 2.3 Replace `client.databases.query()` with `client.dataSources.query()` in `listPages()`, resolving `data_source_id` first
-- [ ] 2.4 Verify `pages.retrieve()` and `blocks.children.list()` still compile with v5 types (no changes expected)
+- [x] 2.4 Verify `pages.retrieve()` and `blocks.children.list()` still compile with v5 types (no changes expected)
 
 ## 3. Update MSW test infrastructure
 
