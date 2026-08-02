@@ -52,15 +52,22 @@ The system SHALL ensure that `IPageRepository` does not import or reference any 
 The system SHALL provide a `NotionPageRepository` class that implements `IPageRepository` by wrapping `@notionhq/client`.
 
 - `NotionPageRepository` SHALL receive the Notion `Client` instance and database ID via constructor
-- `listPages()` SHALL call `client.databases.query()` with the configured database ID and return the results as `StaticPage[]`
+- `listPages()` SHALL resolve the `data_source_id` from the configured database via `client.databases.retrieve()`, then call `client.dataSources.query()` with it and return the results as `StaticPage[]`
+- `listPages()` SHALL throw `NotionDataSourceError` when `databases.retrieve()` returns no data sources
 - `getPage(id)` SHALL call `client.pages.retrieve()` and return a `StaticPage` or `null`
 - `getPageBlocks(id)` SHALL call `client.blocks.children.list()` with full pagination handling and return `PageBlock[]`
 
-#### Scenario: List all pages from the database
+#### Scenario: List all pages from the data source
 
 - **WHEN** `listPages()` is called
-- **THEN** it SHALL call `databases.query()` with the configured database ID
+- **THEN** it SHALL resolve the `data_source_id` via `databases.retrieve()`
+- **AND** call `dataSources.query()` with the resolved `data_source_id`
 - **AND** return each result mapped to a `StaticPage` via `StaticPage.create()`
+
+#### Scenario: Fail when the database has no data sources
+
+- **WHEN** `listPages()` is called and `databases.retrieve()` returns no data sources
+- **THEN** it SHALL throw `NotionDataSourceError`
 
 #### Scenario: Get single page that exists
 
