@@ -58,7 +58,7 @@ Copy from `infrastructure-repository/fixtures/` with v5 transformations. All fix
 
 ## 6. Verification
 
-- [ ] 6.1 Run `pnpm build` (tsc + vite build) — compilation succeeds
+- [x] 6.1 Run `pnpm build` (tsc + vite build) — compilation succeeds
 - [ ] 6.2 Run `pnpm test` — all adapter tests pass
 - [ ] 6.3 Run `pnpm lint` — no lint errors
 - [ ] 6.4 Run example script (requires `.env`) to confirm real API integration works with v5
