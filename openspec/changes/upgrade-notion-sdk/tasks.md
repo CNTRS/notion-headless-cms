@@ -53,7 +53,7 @@ Copy from `infrastructure-repository/fixtures/` with v5 transformations. All fix
 
 - [x] 5.1 Migrate inline `server.use()` overrides in `src/infrastructure/__tests__/NotionPageRepository.test.ts` from `/v1/databases/:id/query` to `/v1/data_sources/:id/query`, registering a `GET /v1/databases/:id` handler for the resolution step
 - [x] 5.2 Add test: `listPages()` resolves the `data_source_id` via `databases.retrieve()` before querying
-- [ ] 5.3 Add test: `listPages()` throws `NotionDataSourceError` when the database has no data sources
+- [x] 5.3 Add test: `listPages()` throws `NotionDataSourceError` when the database has no data sources
 - [ ] 5.4 Copy the 11 v5 fixtures from `openspec/changes/upgrade-notion-sdk/fixtures/` into `src/test/msw/fixtures/` and delete the obsolete `databases.query.*.json`
 
 ## 6. Verification
