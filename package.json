@@ -9,11 +9,11 @@
     "engines": {
         "node": ">=22.0.0"
     },
-    "main": "./dist/notion-headless-cms.js",
-    "module": "./dist/notion-headless-cms.js",
+    "main": "./dist/notion-headless-cms.mjs",
+    "module": "./dist/notion-headless-cms.mjs",
     "scripts": {
         "preinstall": "npx only-allow pnpm",
-        "build": "tsc && vite build",
+        "build": "tsc && tsdown",
         "test": "vitest",
         "test:unit": "vitest --project unit",
         "test:integration": "vitest --project integration",
@@ -29,12 +29,17 @@
         "dotenv": "^16.6.1",
         "fast-check": "^4.9.0",
         "msw": "^2.15.0",
+        "tsdown": "^0.22.14",
         "typescript": "^7.0.2",
-        "vite": "6.4.3",
         "vitest": "4.1.10"
     },
     "dependencies": {
         "@notionhq/client": "5.23.3",
         "image-size": "^1.2.1"
+    },
+    "types": "./dist/notion-headless-cms.d.mts",
+    "exports": {
+        ".": "./dist/notion-headless-cms.mjs",
+        "./package.json": "./package.json"
     }
 }
