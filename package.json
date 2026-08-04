@@ -24,7 +24,7 @@
         "biome": "biome"
     },
     "devDependencies": {
-        "@biomejs/biome": "^2.5.4",
+        "@biomejs/biome": "^2.5.6",
         "@types/node": "22.13.14",
         "dotenv": "^16.6.1",
         "fast-check": "^4.9.0",
