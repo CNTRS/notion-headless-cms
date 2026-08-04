@@ -15,7 +15,7 @@
 
 `pnpm` is enforced; `npm`/`yarn` will fail at preinstall.
 
-`pnpm build` runs `tsc` first (tsconfig `noEmit: true` — typecheck-only), then `vite build`.
+`pnpm build` runs `tsc` first (tsconfig `noEmit: true` — typecheck-only), then `tsdown`.
 
 ## Testing
 
@@ -34,8 +34,7 @@
 ## Framework quirks
 
 - Notion API types imported from `@notionhq/client/build/src/api-endpoints` (non-standard path).
-- Library build outputs ESM only (`formats: ["es"]` in vite.config.ts).
-- Vite resolve alias: `src` → `<root>/src/` (import `"src/..."` works).
+- Library build outputs ESM only (`format: ["esm"]` in tsdown.config.ts); tsdown generates `dist/*.d.mts` and the package `exports`/`types` fields on build.
 - Biome config at `biome.json` (tabWidth: 4, arrow parentheses `asNeeded`).
 - Biome disables `suspicious/noExplicitAny` for Notion API type flexibility.
 - `dotenv` is a devDependency; used in tests via `import "dotenv/config"` (auto-loads `.env`).

@@ -160,8 +160,8 @@ It reads `NOTION_TOKEN` and `NOTION_DB` from `.env` and writes the result to `da
 ## ⚙️ Tech Stack
 
 -   Node.js ≥ 22
--   TypeScript v5
--   Vite + Vitest (build + testing)
+-   TypeScript v7
+-   tsdown + Vitest (build + testing)
 -   Biome (lint + format)
 -   MSW (test HTTP interception)
 -   fast-check (property-based testing)
@@ -192,7 +192,8 @@ It reads `NOTION_TOKEN` and `NOTION_DB` from `.env` and writes the result to `da
     │   ├── test/                   # Fakes + MSW test infrastructure
     │   └── main.ts                 # Library entry point
     ├── tsconfig.json
-    └── vite.config.ts
+    ├── tsdown.config.ts
+    └── vitest.config.ts
 ```
 
 ---
