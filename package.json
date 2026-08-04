@@ -31,7 +31,7 @@
         "msw": "^2.15.0",
         "typescript": "^5.9.3",
         "vite": "6.4.3",
-        "vitest": "3.2.6"
+        "vitest": "4.1.10"
     },
     "dependencies": {
         "@notionhq/client": "5.23.3",
