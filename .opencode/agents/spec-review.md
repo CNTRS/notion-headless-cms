@@ -1,7 +1,7 @@
 ---
 description: Reviews the implemented change against the spec. Proposes spec updates when needed.
 mode: primary
-model: opencode/deepseek-v4-flash-free
+model: opencode/big-pickle
 reasoning: high
 permission:
   edit: allow

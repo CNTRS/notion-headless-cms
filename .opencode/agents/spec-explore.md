@@ -1,7 +1,7 @@
 ---
 description: Discovery + proposal generation. From a vague idea to four OpenSpec artifacts.
 mode: primary
-model: opencode/deepseek-v4-flash-free
+model: opencode/big-pickle
 reasoning: high
 permission:
   edit: allow
