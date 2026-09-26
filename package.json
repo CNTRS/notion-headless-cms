@@ -35,7 +35,7 @@
         "vitest": "5.0.2"
     },
     "dependencies": {
-        "@notionhq/client": "5.23.3",
+        "@notionhq/client": "5.26.0",
         "image-size": "2.0.4"
     },
     "types": "./dist/notion-headless-cms.d.mts",

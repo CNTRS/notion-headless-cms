@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@notionhq/client':
-        specifier: 5.23.3
-        version: 5.23.3
+        specifier: 5.26.0
+        version: 5.26.0
       image-size:
         specifier: 2.0.4
         version: 2.0.4
@@ -154,8 +154,8 @@ packages:
     resolution: {integrity: sha512-VVPPgHyQ6ShqnrmDWuxjmUIsO9gWyOZFmuOfLd9LfBGQJwZfy0gvv9pbHSJuoFNIYC7ZDX9aoFwowjcdSC4E8w==}
     engines: {node: '>=18'}
 
-  '@notionhq/client@5.23.3':
-    resolution: {integrity: sha512-Uk0ycO+u6+iueoE/eK9Aa/DGWd2tZ9ymvGF/MXcfxXXL+AS2JYWm1ols19rEk5qOdZ0l2KYc6zThx0iXQ3QhpQ==}
+  '@notionhq/client@5.26.0':
+    resolution: {integrity: sha512-Oc3438nQ5YmZkVO7YJG8fcTYl0V46CirdCvO33azZ9f7ZfD2rsHE4fUVANJiBB9Xf1sqpCs82nd8oKPxeXLmMg==}
     engines: {node: '>=18'}
 
   '@open-draft/deferred-promise@2.2.0':
@@ -1189,7 +1189,7 @@ snapshots:
       outvariant: 1.4.3
       strict-event-emitter: 0.5.1
 
-  '@notionhq/client@5.23.3': {}
+  '@notionhq/client@5.26.0': {}
 
   '@open-draft/deferred-promise@2.2.0': {}
 
