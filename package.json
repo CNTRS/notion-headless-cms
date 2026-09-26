@@ -35,7 +35,7 @@
     },
     "dependencies": {
         "@notionhq/client": "5.23.3",
-        "image-size": "^1.2.1"
+        "image-size": "^2.0.3"
     },
     "types": "./dist/notion-headless-cms.d.mts",
     "exports": {
