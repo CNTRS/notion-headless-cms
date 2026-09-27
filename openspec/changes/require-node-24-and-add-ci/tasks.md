@@ -6,7 +6,7 @@
 
 ## 2. Raise the declared Node floor
 
-- [ ] 2.1 Change `engines.node` from `">=22.12.0"` to `">=24.11.0"` in `package.json` (use `24.11.0`, not `24` — see design D1)
+- [x] 2.1 Change `engines.node` from `">=22.12.0"` to `">=24.11.0"` in `package.json` (use `24.11.0`, not `24` — see design D1) — `package.json:10` now reads `"node": ">=24.11.0"`; verified with a `node --test` suite over the `node-runtime-baseline` "Declared Node runtime floor" scenarios (the range is a `>=` at patch precision, accepts `24.11.0`/`24.12.0`/`24.21.0`/`25.0.0`/`26.0.0`, rejects `24.0.0`/`24.10.0` and every Node 22 release, and `findMinimumForRange` yields `24.11.0`): 5/5 passing
 - [ ] 2.2 Run `pnpm install` and confirm no dependency versions changed in `pnpm-lock.yaml` and no unsupported-engine warnings were emitted
 - [ ] 2.3 Run `pnpm build` and confirm the log now reports `target: node24.11.0`
 - [ ] 2.4 Verify the floor satisfies the build toolchain: confirm `tsdown@0.23.0` and `rolldown-plugin-dts@0.28.6` (both `^22.18.0 || ^24.11.0 || >=26.0.0`) accept `>=24.11.0`
