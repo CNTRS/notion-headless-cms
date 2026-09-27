@@ -1,7 +1,7 @@
 ## 1. Capture the pre-change baseline
 
 - [x] 1.1 Record the current `dist/` output so it can be diffed after the `engines.node` change: run `pnpm build` and save `git diff --stat` output showing a clean tree (baseline kept outside the repo tree, since `dist` is gitignored: sha256 `ebb831b4…` for `notion-headless-cms.d.mts` and `93ef8227…` for `notion-headless-cms.mjs`; `git diff --stat` and `git status --short` both empty)
-- [ ] 1.2 Confirm the current build target by reading the `target:` line from the `pnpm build` log (expected: `node22.12.0`)
+- [x] 1.2 Confirm the current build target by reading the `target:` line from the `pnpm build` log (expected: `node22.12.0`) — the build log reports `ℹ target: node22.12.0`, derived by `tsdown` from the current `engines.node` of `>=22.12.0`
 - [ ] 1.3 Confirm the full local suite is green on Node 24 before changing anything: `pnpm check`, `pnpm test:unit --run`, `pnpm test:integration --run` (expected: 94 unit + 40 integration passing)
 
 ## 2. Raise the declared Node floor
