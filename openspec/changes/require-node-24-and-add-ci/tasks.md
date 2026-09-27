@@ -15,7 +15,7 @@
 
 ## 3. Pin the developer Node version
 
-- [ ] 3.1 Create `.nvmrc` containing `24.21.0` (exact patch, not the `24` major)
+- [x] 3.1 Create `.nvmrc` containing `24.21.0` (exact patch, not the `24` major) — `.nvmrc` created with the single line `24.21.0` (8 bytes, one trailing `\n`, no `v` prefix, no major-only `24`). Locked by a `node --test` suite (kept outside the repo, per the 5.5 change-set constraint) over the "Pinned version is a specific patch release" scenario: RED first (`AssertionError: expected .nvmrc to exist`), then 1/1 GREEN after the file was written. The assertion is non-vacuous — the `/^\d+\.\d+\.\d+$/` guard rejects a major range like `24` and an equality range like `=24.21.0`/`v24.21.0`, and the equality assertion rejects any other patch. The pin is a real, current LTS release: the official `nodejs.org/dist/index.json` lists `v24.21.0` (dated 2026-09-07) with `"lts":"Krypton"` as the newest entry on the v24 line, so design D3's "latest LTS at time of writing" holds
 - [ ] 3.2 Verify the pinned version satisfies `engines.node` — `24.21.0 >= 24.11.0`
 - [ ] 3.3 Confirm `.nvmrc` is not gitignored (`git check-ignore .nvmrc` should report nothing)
 
