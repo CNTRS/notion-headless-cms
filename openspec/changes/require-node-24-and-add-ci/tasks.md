@@ -31,7 +31,7 @@
 
 ## 5. Final verification
 
-- [ ] 5.1 Run `pnpm build` — compilation succeeds
+- [x] 5.1 Run `pnpm build` — compilation succeeds — `pnpm run build` on `node -v` = `v24.12.0` / `pnpm -v` = `10.34.1` exits **0**: `tsc` typechecks clean (no diagnostics, `noEmit: true`) and `tsdown` v0.23.0 / rolldown v1.2.11 then logs `ℹ target: node24.11.0` — the floor raised in 2.1, not the pre-change `node22.12.0` from 1.2 — and reports `✔ Build complete in 468ms`, emitting `dist/notion-headless-cms.mjs` (13.30 kB) + `dist/notion-headless-cms.d.mts` (4.35 kB). The only diagnostic is the pre-existing, non-fatal `WARN TypeScript 7.0 does not yet have a stable API and is experimental`, which was equally present in the 1.1 baseline build and is unrelated to this change. The emitted artifacts are byte-identical to the 1.1 baseline — `shasum -a 256` gives `ebb831b4…` for `dist/notion-headless-cms.d.mts` (4350 B) and `93ef8227…` for `dist/notion-headless-cms.mjs` (13296 B), the exact two digests recorded in 1.1 and re-confirmed in 2.5 — so compilation succeeding did not silently move the bundle, and `git status --short` is empty (`dist/` is gitignored, so a green tree is the expected result of a successful build)
 - [ ] 5.2 Run `pnpm check` — Biome reports no diagnostics in `src/`
 - [ ] 5.3 Run `pnpm test:unit --run` — 94 tests pass
 - [ ] 5.4 Run `pnpm test:integration --run` — 40 tests pass
